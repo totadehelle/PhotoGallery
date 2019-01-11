@@ -1,0 +1,13 @@
+body{
+    font-family: 'Thasadith', sans-serif;
+    font-weight:bold;
+}
+
+#mainNav{
+    
+    font-size: 1.2rem;
+}
+
+.text-section{
+    margin-top: 20px;
+}
