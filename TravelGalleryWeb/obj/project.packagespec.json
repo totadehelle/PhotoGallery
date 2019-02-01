@@ -1,10 +1,10 @@
 ﻿{
   "version": "1.0.0",
   "restore": {
-    "projectUniqueName": "/home/alter/RiderProjects/TravelGalleryWeb/TravelGalleryWeb/TravelGalleryWeb.csproj",
+    "projectUniqueName": "/home/alter/RiderProjects/TravelPhotoGallery/TravelGalleryWeb/TravelGalleryWeb.csproj",
     "projectName": "TravelGalleryWeb",
-    "projectPath": "/home/alter/RiderProjects/TravelGalleryWeb/TravelGalleryWeb/TravelGalleryWeb.csproj",
-    "outputPath": "/home/alter/RiderProjects/TravelGalleryWeb/TravelGalleryWeb/obj/",
+    "projectPath": "/home/alter/RiderProjects/TravelPhotoGallery/TravelGalleryWeb/TravelGalleryWeb.csproj",
+    "outputPath": "/home/alter/RiderProjects/TravelPhotoGallery/TravelGalleryWeb/obj/",
     "projectStyle": "PackageReference",
     "originalTargetFrameworks": [
       "netcoreapp2.2"

@@ -12158,11 +12158,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/alter/RiderProjects/TravelGalleryWeb/TravelGalleryWeb/TravelGalleryWeb.csproj",
+      "projectUniqueName": "/home/alter/RiderProjects/TravelPhotoGallery/TravelGalleryWeb/TravelGalleryWeb.csproj",
       "projectName": "TravelGalleryWeb",
-      "projectPath": "/home/alter/RiderProjects/TravelGalleryWeb/TravelGalleryWeb/TravelGalleryWeb.csproj",
+      "projectPath": "/home/alter/RiderProjects/TravelPhotoGallery/TravelGalleryWeb/TravelGalleryWeb.csproj",
       "packagesPath": "/home/alter/.nuget/packages/",
-      "outputPath": "/home/alter/RiderProjects/TravelGalleryWeb/TravelGalleryWeb/obj/",
+      "outputPath": "/home/alter/RiderProjects/TravelPhotoGallery/TravelGalleryWeb/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/alter/.config/NuGet/NuGet.Config"

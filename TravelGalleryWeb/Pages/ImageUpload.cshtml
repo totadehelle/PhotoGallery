@@ -1,0 +1,21 @@
+@page
+@model ImageUploadModel
+
+@{
+    ViewData["Title"] = "Upload page";
+}
+<h1>@ViewData["Title"]</h1>
+
+<h2>@Model.Message</h2>
+
+    <form action="" method="POST" enctype="multipart/form-data">
+        <fieldset>
+            <legend> Upload Image  </legend>
+            <label for="Image">Image</label>
+            <input type="file" id="Image" name="Image" multiple="multiple"/>
+            <br/>
+            <input type="submit" value="Upload" />
+        </fieldset>
+    </form>
+    
+
