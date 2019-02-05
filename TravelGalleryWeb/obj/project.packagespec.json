@@ -34,6 +34,26 @@
           "target": "Package",
           "version": "[2.2.0, )"
         },
+        "Microsoft.EntityFrameworkCore": {
+          "target": "Package",
+          "version": "[2.2.1, )"
+        },
+        "Microsoft.EntityFrameworkCore.Design": {
+          "target": "Package",
+          "version": "[2.2.1, )"
+        },
+        "Microsoft.EntityFrameworkCore.SqlServer": {
+          "target": "Package",
+          "version": "[2.2.1, )"
+        },
+        "Microsoft.EntityFrameworkCore.SqlServer.Design": {
+          "target": "Package",
+          "version": "[2.0.0-preview1-final, )"
+        },
+        "Microsoft.EntityFrameworkCore.Sqlite": {
+          "target": "Package",
+          "version": "[2.2.1, )"
+        },
         "Microsoft.NETCore.App": {
           "suppressParent": "All",
           "target": "Package",

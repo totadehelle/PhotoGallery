@@ -61,3 +61,10 @@
 /home/alter/RiderProjects/TravelPhotoGallery/TravelGalleryWeb/obj/Debug/netcoreapp2.2/TravelGalleryWeb.pdb
 /home/alter/RiderProjects/TravelPhotoGallery/TravelGalleryWeb/obj/Debug/netcoreapp2.2/TravelGalleryWeb.csproj.CopyComplete
 /home/alter/RiderProjects/TravelPhotoGallery/TravelGalleryWeb/obj/Debug/netcoreapp2.2/Razor/Pages/ImageUpload.g.cshtml.cs
+/home/alter/RiderProjects/TravelPhotoGallery/TravelGalleryWeb/obj/Debug/netcoreapp2.2/Razor/Pages/Photos/Create.g.cshtml.cs
+/home/alter/RiderProjects/TravelPhotoGallery/TravelGalleryWeb/obj/Debug/netcoreapp2.2/Razor/Pages/Photos/Delete.g.cshtml.cs
+/home/alter/RiderProjects/TravelPhotoGallery/TravelGalleryWeb/obj/Debug/netcoreapp2.2/Razor/Pages/Photos/Details.g.cshtml.cs
+/home/alter/RiderProjects/TravelPhotoGallery/TravelGalleryWeb/obj/Debug/netcoreapp2.2/Razor/Pages/Photos/Edit.g.cshtml.cs
+/home/alter/RiderProjects/TravelPhotoGallery/TravelGalleryWeb/obj/Debug/netcoreapp2.2/Razor/Pages/Photos/Index.g.cshtml.cs
+/home/alter/RiderProjects/TravelPhotoGallery/TravelGalleryWeb/obj/Debug/netcoreapp2.2/Razor/Pages/Albums/Create.g.cshtml.cs
+/home/alter/RiderProjects/TravelPhotoGallery/TravelGalleryWeb/obj/Debug/netcoreapp2.2/Razor/Pages/Albums/Index.g.cshtml.cs

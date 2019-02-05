@@ -1,14 +1,14 @@
 using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TravelGalleryWeb.Models
 {
     public class Photo
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         
-        [Required]
         public string FullPath { get; set; }
 
         [Required]
@@ -17,8 +17,9 @@ namespace TravelGalleryWeb.Models
         [Required]
         public PhotoTag Tag { get; set; }
         
-        [Required]
         public Album Album { get; set; }
+
+        public string AlbumName { get; set; }
 
         public string Comment { get; set; }
     }
