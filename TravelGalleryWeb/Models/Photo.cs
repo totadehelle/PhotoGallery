@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -9,6 +10,7 @@ namespace TravelGalleryWeb.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         
+        [Display(Name = "Full path")]
         public string FullPath { get; set; }
 
         [Required]
@@ -19,7 +21,8 @@ namespace TravelGalleryWeb.Models
         
         public Album Album { get; set; }
 
-        public string AlbumName { get; set; }
+        [Display(Name = "Album")]
+        public int AlbumId { get; set; }
 
         public string Comment { get; set; }
     }

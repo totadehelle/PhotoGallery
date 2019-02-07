@@ -24,16 +24,28 @@
     <ItemGroup>
       <Content Remove="Pages\Shared\_CookieConsentPartial.cshtml" />
       <Content Remove="Pages\Privacy.cshtml" />
+      <Content Remove="Pages\ImageUpload.cshtml" />
     </ItemGroup>
 
 
     <ItemGroup>
       <Compile Remove="Pages\Privacy.cshtml.cs" />
+      <Compile Remove="Pages\ImageUpload.cshtml.cs" />
     </ItemGroup>
 
 
     <ItemGroup>
+      <Folder Include="Pages\admin" />
       <Folder Include="wwwroot\uploadedFiles" />
+    </ItemGroup>
+
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Pages\Photos\Create.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\Photos\Delete.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\Photos\Details.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\Photos\Edit.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\Photos\Index.cshtml" />
     </ItemGroup>
 
 </Project>

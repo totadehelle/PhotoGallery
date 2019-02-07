@@ -1,4 +1,5 @@
 ﻿@page
+@using Newtonsoft.Json.Linq
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
@@ -20,7 +21,8 @@
         <div class="card-deck locationsBlock">
                 
             <div class="card bg-white text-white">
-                <a asp-area="" asp-page="/Album">
+                @*не работает переход по ссылке на Albums с передачей параметра*@
+                <a asp-area="" asp-page="/Album/Alps">
                     <img src="images/alps.png" class="card-img" alt="...">
                     <div class="card-img-overlay d-flex align-items-end px-0">
                         <h5 class="card-title flex-fill pl-3">Alps</h5>
@@ -29,7 +31,7 @@
             </div>          
                
             <div class="card bg-white text-white">
-                <a asp-area="" asp-page="/Album">
+                <a asp-area="" asp-page="/Album/Crimea">
                 <img src="images/crimea.jpg" class="card-img" alt="...">
                 <div class="card-img-overlay d-flex align-items-end px-0">
                     <h5 class="card-title flex-fill pl-3">Crimea</h5>
@@ -38,7 +40,7 @@
             </div>
                
             <div class="card bg-white text-white">
-                <a asp-area="" asp-page="/Album">
+                <a asp-area="" asp-page="/Album/Norway">
                 <img src="images/norway.jpg" class="card-img" alt="...">
                 <div class="card-img-overlay d-flex align-items-end px-0">
                     <h5 class="card-title flex-fill pl-3">Norway</h5>
@@ -50,7 +52,7 @@
         <div class="card-deck locationsBlock">
         
             <div class="card bg-white text-white">
-                <a asp-area="" asp-page="/Album">
+                <a asp-area="" asp-page="/Album/Altai">
                 <img src="images/altay.jpg" class="card-img" alt="...">
                 <div class="card-img-overlay d-flex align-items-end px-0">
                     <h5 class="card-title flex-fill pl-3">Altai</h5>
@@ -59,7 +61,7 @@
             </div>
             
             <div class="card bg-white text-white">
-                <a asp-area="" asp-page="/Album">
+                <a asp-area="" asp-page="/Album/Carpathians">
                 <img src="images/carpatian.jpg" class="card-img" alt="...">
                 <div class="card-img-overlay d-flex align-items-end px-0">
                     <h5 class="card-title flex-fill pl-3">Carpathians</h5>
@@ -68,7 +70,7 @@
             </div>
                 
             <div class="card bg-white text-white">
-                <a asp-area="" asp-page="/Album">
+                <a asp-area="" asp-page="/Album/Caucasus">
                 <img src="images/caucasus.jpg" class="card-img" alt="...">
                 <div class="card-img-overlay d-flex align-items-end px-0">
                     <h5 class="card-title flex-fill pl-3">Caucasus</h5>
@@ -81,7 +83,7 @@
         <div class="card-deck locationsBlock">
            
             <div class="card bg-white text-white">
-                <a asp-area="" asp-page="/Album">
+                <a asp-area="" asp-page="/Album/Iceland">
                 <img src="images/iceland.jpg" class="card-img" alt="...">
                 <div class="card-img-overlay d-flex align-items-end px-0">
                     <h5 class="card-title flex-fill pl-3">Iceland</h5>
@@ -90,7 +92,7 @@
             </div>
             
             <div class="card bg-white text-white">
-                <a asp-area="" asp-page="/Album">
+                <a asp-area="" asp-page="/Album/Lake Baikal">
                 <img src="images/mount.jpg" class="card-img" alt="...">
                 <div class="card-img-overlay d-flex align-items-end px-0">
                     <h5 class="card-title flex-fill pl-3">Lake Baikal</h5>
@@ -99,7 +101,7 @@
             </div>
 
             <div class="card bg-white text-white">
-                <a asp-area="" asp-page="/Album">
+                <a asp-area="" asp-page="/Album/East Sayan">
                 <img src="images/sayan.jpg" class="card-img" alt="...">
                 <div class="card-img-overlay d-flex align-items-end px-0">
                     <h5 class="card-title flex-fill pl-3">East Sayan</h5>

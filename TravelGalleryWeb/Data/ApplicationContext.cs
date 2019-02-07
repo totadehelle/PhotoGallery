@@ -1,13 +1,15 @@
 using Microsoft.EntityFrameworkCore;
 using TravelGalleryWeb.Models;
 
-namespace TravelGalleryWeb.Repositories
+namespace TravelGalleryWeb.Data
 {
     public class ApplicationContext  : DbContext
     {
        
         public DbSet<Photo> Photos { get; set; }
         public DbSet<Album> Albums { get; set; }
+        public DbSet<Admin> Admins { get; set; }
+
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
         { }
@@ -18,7 +20,7 @@ namespace TravelGalleryWeb.Repositories
                 .Entity<Album>()
                 .HasMany(e => e.Photos)
                 .WithOne(e => e.Album)
-                .HasForeignKey(e => e.AlbumName)
+                .HasForeignKey(e => e.AlbumId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
         

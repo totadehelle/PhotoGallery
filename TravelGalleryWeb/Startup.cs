@@ -1,10 +1,11 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using TravelGalleryWeb.Repositories;
+using TravelGalleryWeb.Data;
 
 namespace TravelGalleryWeb
 {
@@ -28,8 +29,22 @@ namespace TravelGalleryWeb
             });
 
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc()
+                .AddRazorPagesOptions(options =>
+                {
+                    options.Conventions.AuthorizeFolder("/Admin").AllowAnonymousToPage("/Admin/Signin");
+                    //options.Conventions.AddPageRoute("/Album", "Album/{location}"); //не работает рутинг, говорит обнаружено две идентичные страницы Album, хз почему
+                    
+                })
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddEntityFrameworkSqlite().AddDbContext<ApplicationContext>();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.AccessDeniedPath = "/Index";
+                    options.LoginPath = "/Admin/Signin";
+                    options.LogoutPath = "/Index"; // how should it work?
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,10 +61,15 @@ namespace TravelGalleryWeb
                 app.UseHsts();
             }
 
+            var cookiePolicyOptions = new CookiePolicyOptions
+            {
+                MinimumSameSitePolicy = SameSiteMode.Lax,
+            };
+            
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseCookiePolicy();
-
+            app.UseCookiePolicy(cookiePolicyOptions);
+            app.UseAuthentication();
             app.UseMvc();
         }
     }

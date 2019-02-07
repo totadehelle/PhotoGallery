@@ -1,9 +1,50 @@
-@page
+@page "{location}"
 @model AlbumModel
 
 @{
     ViewData["Title"] = "Album";
+    
 }
 <h1>@ViewData["Title"]</h1>
 
-<p>Some album from template</p>
+<h2>@Model.Location</h2>
+
+<div class="btn-group" role="group" aria-label="Basic example">
+    @foreach (var year in Model.Years)
+    {
+        <button type="button" class="btn btn-secondary">@year</button>
+    }
+</div>
+
+
+
+<section class="photoalbum">
+        
+        <div class="card-columns">
+            @if (Model.PhotoCollection.Count > 0)
+
+            {
+
+                foreach (var image in Model.PhotoCollection)
+
+                {
+                        <div class="card">
+                            <a href="@image.FullPath"><img class="card-img-top" src="@image.FullPath" alt="Card image cap" ></a>
+                        </div>
+                }
+
+            }
+
+            else
+
+            {
+
+                <h3>No Images to display!</h3>
+
+            }
+        </div>
+
+    
+
+</section>
+
