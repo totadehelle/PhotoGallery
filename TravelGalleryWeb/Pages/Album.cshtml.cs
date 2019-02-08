@@ -24,9 +24,7 @@ namespace TravelGalleryWeb.Pages
         public AlbumModel(ApplicationContext context)
 
         {
-
             _context = context;
-
         }
         
         public async Task OnGet()

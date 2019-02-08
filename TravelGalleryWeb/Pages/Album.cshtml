@@ -1,50 +1,60 @@
 @page "{location}"
+@using TravelGalleryWeb.Models
 @model AlbumModel
 
 @{
     ViewData["Title"] = "Album";
     
 }
-<h1>@ViewData["Title"]</h1>
+<h2 class="d3">@Model.Location</h2>
 
-<h2>@Model.Location</h2>
-
-<div class="btn-group" role="group" aria-label="Basic example">
-    @foreach (var year in Model.Years)
-    {
-        <button type="button" class="btn btn-secondary">@year</button>
-    }
+<div class="btn-toolbar mb-2" role="toolbar" aria-label="Toolbar">
+    <div class="btn-group mr-2" role="group" aria-label="Year group">
+        @foreach (var year in Model.Years)
+            {
+                <button type="button" class="btn btn-outline-dark btn-sm">@year</button>
+            }
+        </div>
+    <div class="btn-group mr-2" role="group" aria-label="Tag filter">
+        <div class="dropdown">
+            <button class="btn btn-outline-dark dropdown-toggle btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Filter
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item active" href="#">All</a>
+                <a class="dropdown-item" href="#">@PhotoTag.Nature</a>
+                <a class="dropdown-item" href="#">@PhotoTag.People</a>
+            </div>
+        </div>
+    </div>
 </div>
-
-
 
 <section class="photoalbum">
         
-        <div class="card-columns">
-            @if (Model.PhotoCollection.Count > 0)
+    <div class="card-columns">
+        @if (Model.PhotoCollection.Count > 0)
+
+        {
+
+            foreach (var image in Model.PhotoCollection)
 
             {
-
-                foreach (var image in Model.PhotoCollection)
-
-                {
-                        <div class="card">
-                            <a href="@image.FullPath"><img class="card-img-top" src="@image.FullPath" alt="Card image cap" ></a>
-                        </div>
-                }
-
+                <div class="card">
+                    <a href="@image.FullPath"><img class="card-img-top" src="@image.FullPath" alt="Card image cap" ></a>
+                </div>
             }
 
-            else
+        }
 
-            {
+        else
 
-                <h3>No Images to display!</h3>
+        {
 
-            }
-        </div>
+            <h3>No Images to display!</h3>
+
+        }
+    </div>
 
     
 
 </section>
-

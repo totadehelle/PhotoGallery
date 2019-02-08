@@ -12563,7 +12563,7 @@
       "outputPath": "/home/alter/RiderProjects/TravelPhotoGallery/TravelGalleryWeb/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/alter/.nuget/NuGet/NuGet.Config"
+        "/home/alter/.config/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.2"

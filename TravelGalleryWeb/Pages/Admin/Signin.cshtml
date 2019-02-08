@@ -7,7 +7,18 @@
 
 <h1>Please sign in</h1>
 
-<div class="alert alert-info" role="alert">@Model.Message</div>
+@switch (@Model.Status)
+{
+    case SigninModel.AuthStatus.Authorized :
+        <div class="alert alert-success" role="alert" id="statusMessage">You are logged in as @Model.UserName.</div>
+        break;
+    case SigninModel.AuthStatus.LoggedOut :
+        <div class="alert alert-info" role="alert" id="statusMessage">You are not logged in.</div>
+        break;
+    case SigninModel.AuthStatus.Error :
+        <div class="alert alert-danger" role="alert" id="statusMessage">Incorrect login or password, please try again or contact the site administrator.</div>
+        break;
+}
 
 <form method="POST">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -29,8 +40,20 @@
     </div>
 </form>
 
+
 <form method="POST">
     <div class="form-group">
-        <input type="submit" value="Sign out" asp-page-handler="SignOut" class="btn btn-danger" />
+        @switch (@Model.Status)
+        {
+            case SigninModel.AuthStatus.Authorized :
+                <input type="submit" value="Sign out" asp-page-handler="SignOut" class="btn btn-danger" id="signOutButton" />
+                break;
+            case SigninModel.AuthStatus.LoggedOut :
+                <input type="submit" value="Sign out" asp-page-handler="SignOut" class="btn btn-danger" id="signOutButton" disabled/>
+                break;
+            case SigninModel.AuthStatus.Error :
+                <input type="submit" value="Sign out" asp-page-handler="SignOut" class="btn btn-danger" id="signOutButton" disabled/>
+                break;
+        }
     </div>
 </form>

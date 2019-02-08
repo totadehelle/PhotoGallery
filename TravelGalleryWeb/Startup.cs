@@ -41,9 +41,9 @@ namespace TravelGalleryWeb
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
-                    options.AccessDeniedPath = "/Index";
+                    options.AccessDeniedPath = "/Admin/Signin";
                     options.LoginPath = "/Admin/Signin";
-                    options.LogoutPath = "/Index"; // how should it work?
+                    options.LogoutPath = "/Index";
                 });
         }
 
