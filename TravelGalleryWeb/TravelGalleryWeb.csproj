@@ -25,6 +25,7 @@
       <Content Remove="Pages\Shared\_CookieConsentPartial.cshtml" />
       <Content Remove="Pages\Privacy.cshtml" />
       <Content Remove="Pages\ImageUpload.cshtml" />
+      <Content Remove="Pages\Test.cshtml" />
     </ItemGroup>
 
 

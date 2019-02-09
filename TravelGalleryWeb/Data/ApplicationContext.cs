@@ -22,6 +22,7 @@ namespace TravelGalleryWeb.Data
                 .WithOne(e => e.Album)
                 .HasForeignKey(e => e.AlbumId)
                 .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Photo>().HasIndex(u => u.Year);
         }
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

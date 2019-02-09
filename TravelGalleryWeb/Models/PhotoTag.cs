@@ -4,5 +4,6 @@ namespace TravelGalleryWeb.Models
     {
         Nature,
         People,
+        All,
     }
 }

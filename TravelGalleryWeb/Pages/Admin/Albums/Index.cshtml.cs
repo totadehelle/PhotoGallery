@@ -1,26 +1,26 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using TravelGalleryWeb.Data;
 using TravelGalleryWeb.Models;
+using TravelGalleryWeb.Data;
 
-namespace TravelGalleryWeb.Pages
+namespace TravelGalleryWeb.Pages.Admin.Albums
 {
     public class IndexModel : PageModel
     {
         private readonly ApplicationContext _context;
-        public List<Album> AlbumList;
 
         public IndexModel(ApplicationContext context)
         {
             _context = context;
         }
-        
-        public void OnGet()
+
+        public IList<Album> Albums { get;set; }
+
+        public async Task OnGetAsync()
         {
-            AlbumList = _context.Albums.Select(p => p).ToList();
+            Albums = await _context.Albums.ToListAsync();
         }
     }
 }

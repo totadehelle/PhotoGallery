@@ -1,0 +1,21 @@
+@page
+@model TravelGalleryWeb.Pages.TestModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="container mt-5">
+    
+    <a asp-area="" asp-page="/Album/Crimea">Click me</a>
+    
+    
+    <h1>Name is: @Model.Name</h1>
+
+    <form method="POST">
+        <div class="form-group">
+            <input type="submit" value="ChangeName" class="btn btn-danger" />
+        </div>
+    </form>
+</div>
+

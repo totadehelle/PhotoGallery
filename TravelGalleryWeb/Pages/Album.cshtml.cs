@@ -14,26 +14,49 @@ namespace TravelGalleryWeb.Pages
     {
         private ApplicationContext _context;
         
-        [BindProperty(SupportsGet = true)]
-        public string Location { get; set; }
+        [BindProperty(SupportsGet = true)] public int Id { get; set; }
+        [BindProperty(SupportsGet = true)] public int Year { get; set; } = 0;
+        [BindProperty(SupportsGet = true)] public PhotoTag Tag { get; set; } = PhotoTag.All;
+        public string Name;
 
         public List<Photo> PhotoCollection { get; set; }
         
         public List<int> Years { get; set; }
 
         public AlbumModel(ApplicationContext context)
-
         {
             _context = context;
         }
         
         public async Task OnGet()
         {
-            int id = _context.Albums.FirstOrDefaultAsync(a => a.Name == Location).Result.Id;
+            Name = _context.Albums.FirstOrDefaultAsync(a => a.Id == Id).Result.Name;
             
-            PhotoCollection = await _context.Photos.Where(p => p.AlbumId == id).ToListAsync();
+            Years = await (from p in _context.Photos 
+                    where p.AlbumId == Id 
+                    select p.Year)
+                .Distinct()
+                .OrderByDescending(year => year)
+                .ToListAsync();
 
-            Years = (from photo in PhotoCollection select photo.Year).Distinct().OrderByDescending(year => year).ToList();
+            if (Years.All(y => y != Year))
+            {
+                Year = Years.Max();
+            }
+            
+            if (Tag != PhotoTag.All)
+            {
+                PhotoCollection = await _context.Photos
+                    .Where(p => p.AlbumId == Id)
+                    .Where(p => p.Year == Year)
+                    .Where(p => p.Tag == Tag)
+                    .ToListAsync();
+            }
+            
+            else PhotoCollection = await _context.Photos
+                .Where(p => p.AlbumId == Id)
+                .Where(p => p.Year == Year)
+                .ToListAsync();
         }
     }
 }
