@@ -33,7 +33,8 @@ namespace TravelGalleryWeb
                 .AddRazorPagesOptions(options =>
                 {
                     options.Conventions.AuthorizeFolder("/Admin").AllowAnonymousToPage("/Admin/Signin");
-                    //options.Conventions.AddPageRoute("/Album", "Album/{location}"); //не работает рутинг, говорит обнаружено две идентичные страницы Album, хз почему
+                    options.Conventions.AuthorizeFolder("/Admin/Admins", "RequireAdministratorRole");
+                    
                     
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
@@ -45,6 +46,11 @@ namespace TravelGalleryWeb
                     options.LoginPath = "/Admin/Signin";
                     options.LogoutPath = "/Index";
                 });
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("RequireAdministratorRole", policy => policy.RequireRole("Administrator"));
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -2,7 +2,7 @@
 @model TravelGalleryWeb.Pages.Admin.SigninModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Sign in";
 }
 
 <h1>Please sign in</h1>
@@ -36,24 +36,14 @@
     </div>
     
     <div class="form-group">
-        <input type="submit" value="Sign in" asp-page-handler="SignIn" class="btn btn-primary" />
-    </div>
-</form>
 
-
-<form method="POST">
-    <div class="form-group">
-        @switch (@Model.Status)
+        @if (@Model.Status == SigninModel.AuthStatus.Authorized)
         {
-            case SigninModel.AuthStatus.Authorized :
-                <input type="submit" value="Sign out" asp-page-handler="SignOut" class="btn btn-danger" id="signOutButton" />
-                break;
-            case SigninModel.AuthStatus.LoggedOut :
-                <input type="submit" value="Sign out" asp-page-handler="SignOut" class="btn btn-danger" id="signOutButton" disabled/>
-                break;
-            case SigninModel.AuthStatus.Error :
-                <input type="submit" value="Sign out" asp-page-handler="SignOut" class="btn btn-danger" id="signOutButton" disabled/>
-                break;
+            <input type="submit" value="Sign in" class="btn btn-primary" disabled/>
+        }
+        else
+        {
+            <input type="submit" value="Sign in" class="btn btn-primary"/>
         }
     </div>
 </form>

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using TravelGalleryWeb.Models;
 using TravelGalleryWeb.Data;
@@ -15,7 +14,7 @@ namespace TravelGalleryWeb.Pages
         private ApplicationContext _context;
         
         [BindProperty(SupportsGet = true)] public int Id { get; set; }
-        [BindProperty(SupportsGet = true)] public int Year { get; set; } = 0;
+        [BindProperty(SupportsGet = true)] public int Year { get; set; }
         [BindProperty(SupportsGet = true)] public PhotoTag Tag { get; set; } = PhotoTag.All;
         public string Name;
 
@@ -28,7 +27,7 @@ namespace TravelGalleryWeb.Pages
             _context = context;
         }
         
-        public async Task OnGet()
+        public async Task OnGetAsync()
         {
             Name = _context.Albums.FirstOrDefaultAsync(a => a.Id == Id).Result.Name;
             
@@ -39,7 +38,8 @@ namespace TravelGalleryWeb.Pages
                 .OrderByDescending(year => year)
                 .ToListAsync();
 
-            if (Years.All(y => y != Year))
+            //Without list length checking All() returns true when the list is empty.
+            if (Years.Any() && Years.All(y => y != Year))
             {
                 Year = Years.Max();
             }

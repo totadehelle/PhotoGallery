@@ -15,11 +15,7 @@
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Photo.Id" />
-            <div class="form-group">
-                <label asp-for="Photo.FullPath" class="control-label"></label>
-                <input asp-for="Photo.FullPath" class="form-control" />
-                <span asp-validation-for="Photo.FullPath" class="text-danger"></span>
-            </div>
+            <input type="hidden" asp-for="Photo.FullPath" />
             <div class="form-group">
                 <label asp-for="Photo.Year" class="control-label"></label>
                 <input type="number" asp-for="Photo.Year" class="form-control" min="1990" max="2019" value="2019" />

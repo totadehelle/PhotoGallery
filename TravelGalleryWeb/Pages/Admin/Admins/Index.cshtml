@@ -1,0 +1,40 @@
+﻿@page
+@model TravelGalleryWeb.Pages.Admin.Admins.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Admins[0].Login)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Admins[0].Role)
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model.Admins) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Login)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Role)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

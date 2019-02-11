@@ -26,6 +26,7 @@
       <Content Remove="Pages\Privacy.cshtml" />
       <Content Remove="Pages\ImageUpload.cshtml" />
       <Content Remove="Pages\Test.cshtml" />
+      <Content Remove="Pages\Admin\Admins\Details.cshtml" />
     </ItemGroup>
 
 
@@ -33,6 +34,7 @@
       <Compile Remove="Pages\Privacy.cshtml.cs" />
       <Compile Remove="Pages\ImageUpload.cshtml.cs" />
       <Compile Remove="Pages\Test.cshtml.cs" />
+      <Compile Remove="Pages\Admin\Admins\Details.cshtml.cs" />
     </ItemGroup>
 
 

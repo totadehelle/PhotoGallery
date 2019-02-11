@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -6,22 +7,20 @@ using Microsoft.EntityFrameworkCore;
 using TravelGalleryWeb.Models;
 using TravelGalleryWeb.Data;
 
-namespace TravelGalleryWeb.Pages.Admin.Albums
+namespace TravelGalleryWeb.Pages.Admin.Admins
 {
     public class DeleteModel : PageModel
     {
         private readonly ApplicationContext _context;
-        private readonly IHostingEnvironment _appEnvironment;
         
 
-        public DeleteModel(ApplicationContext context, IHostingEnvironment appEnvironment)
+        public DeleteModel(ApplicationContext context)
         {
             _context = context;
-            _appEnvironment = appEnvironment;
         }
 
         [BindProperty]
-        public Album Album { get; set; }
+        public Models.Admin Admin { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -30,9 +29,9 @@ namespace TravelGalleryWeb.Pages.Admin.Albums
                 return NotFound();
             }
 
-            Album = await _context.Albums.FirstOrDefaultAsync(m => m.Id == id);
+            Admin = await _context.Admins.FirstOrDefaultAsync(m => m.Id == id);
 
-            if (Album == null)
+            if (Admin == null)
             {
                 return NotFound();
             }
@@ -46,16 +45,11 @@ namespace TravelGalleryWeb.Pages.Admin.Albums
                 return NotFound();
             }
 
-            Album = await _context.Albums.FindAsync(id);
+            Admin = await _context.Admins.FindAsync(id);
 
-            if (Album != null)
+            if (Admin != null)
             {
-                if (System.IO.File.Exists(_appEnvironment.WebRootPath + Album.Cover))
-                {
-                    System.IO.File.Delete(_appEnvironment.WebRootPath + Album.Cover);
-                }
-                
-                _context.Albums.Remove(Album);
+                _context.Admins.Remove(Admin);
                 await _context.SaveChangesAsync();
             }
 

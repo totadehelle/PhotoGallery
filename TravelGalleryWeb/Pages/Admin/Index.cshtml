@@ -1,0 +1,20 @@
+@page
+@model TravelGalleryWeb.Pages.Admin.IndexModel
+
+@{
+    ViewData["Title"] = "Admin";
+}
+
+<h1>Hello, @HttpContext.User.Identity.Name</h1>
+
+<ol>
+    <li><a asp-page="./Photos/Index">Manage photos</a></li>
+    <li><a asp-page="./Albums/Index">Manage albums</a></li>
+    <li><a asp-page="./Admins/Index">Manage site administrators</a></li>
+</ol>
+
+<form method="POST">
+    <div class="form-group">
+        <input type="submit" value="Sign out" class="btn btn-danger" id="signOutButton"/>
+    </div>
+</form>

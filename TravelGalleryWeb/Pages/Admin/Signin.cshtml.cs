@@ -1,22 +1,25 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using TravelGalleryWeb.Data;
+using TravelGalleryWeb.Models;
+using TravelGalleryWeb.Pages.Admin.Admins;
 
 namespace TravelGalleryWeb.Pages.Admin
 {
     public class SigninModel : PageModel
     {
-        private const string Salt = "3769011ffb974839a44d2110f9683bf7";
         private ApplicationContext _context;
+        public AuthStatus Status;
+        public string UserName;
+
+        [BindProperty]
+        public Models.Admin Admin { get; set; }
         
         public enum AuthStatus
         {
@@ -24,15 +27,6 @@ namespace TravelGalleryWeb.Pages.Admin
             LoggedOut,
             Error,
         }
-
-        
-        public AuthStatus Status;
-        public string UserName;
-
-        [BindProperty]
-        public Models.Admin Admin { get; set; }
-        
-        
 
         public SigninModel(ApplicationContext context)
         {
@@ -42,7 +36,7 @@ namespace TravelGalleryWeb.Pages.Admin
         
         public void OnGet()
         {
-            if (HttpContext.User.Identity.IsAuthenticated == true)
+            if (HttpContext.User.Identity.IsAuthenticated)
             {
                 UserName = HttpContext.User.Identity.Name;
                 Status = AuthStatus.Authorized;
@@ -53,76 +47,47 @@ namespace TravelGalleryWeb.Pages.Admin
             }
         }
 
-        public async Task OnPostSignInAsync()
+        public async Task<IActionResult> OnPostAsync()
         {
             var targetUser = _context.Admins.FirstOrDefault(t => t.Login == Admin.Login);
 
             if (targetUser == null)
             {
                 Status = AuthStatus.Error;
-                return;
+                return Page();
             }
             
-            if (!_verifyPassword(Admin.Password, targetUser.Password))
+            if (!EncryptionTools.VerifyPassword(Admin.Password, targetUser.Password))
             {
                 Status = AuthStatus.Error;
-                return;
+                return Page();
             }
 
+            Admin.Role = targetUser.Role;
             await HttpContext.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,
                 new ClaimsPrincipal(GetIdentity()), new AuthenticationProperties{IsPersistent = true});
             UserName = Admin.Login;
             Status = AuthStatus.Authorized;
-        }
-
-        public async void OnPostSignOutAsync()
-        {
-            if (HttpContext.User.Identity.IsAuthenticated)
-            {
-                await HttpContext.SignOutAsync(
-                    CookieAuthenticationDefaults.AuthenticationScheme);
-                Status = AuthStatus.LoggedOut;
-            }
+            return RedirectToPage("./Index");
         }
 
         private ClaimsIdentity GetIdentity()
         {
-            var claims = new List<Claim>
+            var claims = new List<Claim>();
+            claims.Add(new Claim(ClaimTypes.Name, Admin.Login));
+            switch (Admin.Role)
             {
-                new Claim(ClaimTypes.Name, Admin.Login),
-                new Claim(ClaimTypes.Role, "Administrator"),
-            };
-            ClaimsIdentity claimsIdentity =
+                case Role.Administrator:
+                    claims.Add(new Claim(ClaimTypes.Role, "Administrator"));
+                    break;
+                case Role.ContentManager:
+                    claims.Add(new Claim(ClaimTypes.Role, "ContentManager"));
+                    break;
+            }
+            var claimsIdentity =
                 new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             return claimsIdentity;
         }
-        
-        private string _hashPassword(string password)
-        {
-            MD5CryptoServiceProvider md5Hasher = new MD5CryptoServiceProvider();
-            byte[] data = md5Hasher.ComputeHash(Encoding.Default.GetBytes(password+Salt));
-            StringBuilder sBuilder = new StringBuilder();
-            for (int i = 0; i < data.Length; i++)
-            {
-                sBuilder.Append(data[i].ToString("x2"));
-            }
-            return sBuilder.ToString();
-        }
-        
-        private bool _verifyPassword(string input, string hash)
-        {
-            string hashOfInput = _hashPassword(input);
-            StringComparer comparer = StringComparer.OrdinalIgnoreCase;
-            if (0 == comparer.Compare(hashOfInput, hash))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        
     }
 }

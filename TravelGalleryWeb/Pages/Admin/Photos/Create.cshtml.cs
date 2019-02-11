@@ -17,7 +17,7 @@ namespace TravelGalleryWeb.Pages.Admin.Photos
     public class CreateModel : PageModel
     {
         private readonly ApplicationContext _context;
-        IHostingEnvironment _appEnvironment;
+        private readonly IHostingEnvironment _appEnvironment;
         
         public List<SelectListItem> AlbumsList => _context.Albums
             .Select(album => new SelectListItem {

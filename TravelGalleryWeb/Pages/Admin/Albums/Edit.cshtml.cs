@@ -1,5 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -11,10 +15,13 @@ namespace TravelGalleryWeb.Pages.Admin.Albums
     public class EditModel : PageModel
     {
         private readonly ApplicationContext _context;
+        private readonly IHostingEnvironment _appEnvironment;
+        
 
-        public EditModel(ApplicationContext context)
+        public EditModel(ApplicationContext context, IHostingEnvironment appEnvironment)
         {
             _context = context;
+            _appEnvironment = appEnvironment;
         }
 
         [BindProperty]
@@ -36,11 +43,33 @@ namespace TravelGalleryWeb.Pages.Admin.Albums
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(IFormCollection CoverImage)
         {
             if (!ModelState.IsValid)
             {
                 return Page();
+            }
+            
+            var file = CoverImage.Files.FirstOrDefault();
+
+            if (file != null)
+            {
+                var newFileName = Guid.NewGuid().ToString() + "_" +
+                                  Path.GetFileName(file.FileName);
+                var imagePath = @"/uploadedFiles/" + newFileName;
+
+
+                using (var fileStream = new FileStream(_appEnvironment.WebRootPath + imagePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(fileStream);
+                }
+                
+                if (System.IO.File.Exists(_appEnvironment.WebRootPath + Album.Cover))
+                {
+                    System.IO.File.Delete(_appEnvironment.WebRootPath + Album.Cover);
+                }
+
+                Album.Cover = imagePath;
             }
 
             _context.Attach(Album).State = EntityState.Modified;
