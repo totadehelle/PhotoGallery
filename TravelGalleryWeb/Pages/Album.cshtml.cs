@@ -29,9 +29,9 @@ namespace TravelGalleryWeb.Pages
         
         public async Task OnGetAsync()
         {
-            Name = _context.Albums.FirstOrDefaultAsync(a => a.Id == Id).Result.Name;
+            Name = _context.Albums.AsNoTracking().FirstOrDefaultAsync(a => a.Id == Id).Result.Name;
             
-            Years = await (from p in _context.Photos 
+            Years = await (from p in _context.Photos.AsNoTracking() 
                     where p.AlbumId == Id 
                     select p.Year)
                 .Distinct()
@@ -46,14 +46,14 @@ namespace TravelGalleryWeb.Pages
             
             if (Tag != PhotoTag.All)
             {
-                PhotoCollection = await _context.Photos
+                PhotoCollection = await _context.Photos.AsNoTracking()
                     .Where(p => p.AlbumId == Id)
                     .Where(p => p.Year == Year)
                     .Where(p => p.Tag == Tag)
                     .ToListAsync();
             }
             
-            else PhotoCollection = await _context.Photos
+            else PhotoCollection = await _context.Photos.AsNoTracking()
                 .Where(p => p.AlbumId == Id)
                 .Where(p => p.Year == Year)
                 .ToListAsync();

@@ -25,7 +25,7 @@ namespace TravelGalleryWeb.Pages.Admin.Photos
                 return NotFound();
             }
 
-            Photo = await _context.Photos.FirstOrDefaultAsync(m => m.Id == id);
+            Photo = await _context.Photos.AsNoTracking().FirstOrDefaultAsync(m => m.Id == id);
 
             if (Photo == null)
             {

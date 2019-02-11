@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using SQLitePCL;
 using TravelGalleryWeb.Models;
 using TravelGalleryWeb.Data;
@@ -19,7 +20,7 @@ namespace TravelGalleryWeb.Pages.Admin.Photos
         private readonly ApplicationContext _context;
         private readonly IHostingEnvironment _appEnvironment;
         
-        public List<SelectListItem> AlbumsList => _context.Albums
+        public List<SelectListItem> AlbumsList => _context.Albums.AsNoTracking()
             .Select(album => new SelectListItem {
                 Value = album.Id.ToString(),
                 Text = album.Name

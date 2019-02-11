@@ -18,6 +18,7 @@ namespace TravelGalleryWeb.Pages.Admin.Admins
     public class CreateModel : PageModel
     {
         private readonly ApplicationContext _context;
+        public string Message { get; set; }
 
         public CreateModel(ApplicationContext context)
         {
@@ -39,13 +40,27 @@ namespace TravelGalleryWeb.Pages.Admin.Admins
                 return Page();
             }
 
+            if (AdminExists(Admin.Login))
+            {
+                Message = "User with this login already exists, please choose other login.";
+                return Page();
+            }
+
+            Message = null;
+
             Admin.Password = EncryptionTools.HashPassword(Admin.Password);
+            Admin.LastChanged = DateTime.Now;
             
             _context.Admins.Add(Admin);
                 
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");
+        }
+        
+        private bool AdminExists(string login)
+        {
+            return _context.Admins.AsNoTracking().Any(e => e.Login == login);
         }
     }
 }

@@ -20,7 +20,7 @@ namespace TravelGalleryWeb.Pages.Admin.Albums
 
         public async Task OnGetAsync()
         {
-            Albums = await _context.Albums.ToListAsync();
+            Albums = await _context.Albums.AsNoTracking().ToListAsync();
         }
     }
 }
