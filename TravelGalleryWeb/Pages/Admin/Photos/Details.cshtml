@@ -1,0 +1,44 @@
+﻿@page
+@model TravelGalleryWeb.Pages.Admin.Photos.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Photo</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Photo.FullPath)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Photo.FullPath)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Photo.Year)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Photo.Year)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Photo.Comment)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Photo.Comment)
+        </dd>
+        
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Photo.Tag)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Photo.Tag)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Photo.Id">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>

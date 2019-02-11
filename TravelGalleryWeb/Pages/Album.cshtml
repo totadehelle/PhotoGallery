@@ -1,9 +1,59 @@
-@page
+@page "{id}/{year?}/{tag?}"
+@using TravelGalleryWeb.Models
 @model AlbumModel
 
 @{
     ViewData["Title"] = "Album";
+    
 }
-<h1>@ViewData["Title"]</h1>
+<h2 class="d3">@Model.Name</h2>
 
-<p>Some album from template</p>
+<div class="btn-toolbar mb-2" role="toolbar" aria-label="Toolbar">
+    <div class="btn-group mr-2" role="group" aria-label="Year group">
+        
+        @foreach (var year in Model.Years)
+        {
+            if (year == Model.Year)
+            {
+                <a class="btn btn-outline-dark btn-sm active" asp-route-year="@year" asp-route-tag="@PhotoTag.All">@year</a>
+            }
+            else
+            {
+                <a class="btn btn-outline-dark btn-sm" asp-route-year="@year" asp-route-tag="@PhotoTag.All">@year</a>
+            }
+        }
+    </div>
+    <div class="btn-group mr-2" role="group" aria-label="Tag filter">
+        <div class="dropdown">
+            <button class="btn btn-outline-dark dropdown-toggle btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                @Model.Tag
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" asp-route-year = "@Model.Year" asp-route-tag="@PhotoTag.All">All</a>
+                <a class="dropdown-item" asp-route-year = "@Model.Year" asp-route-tag="@PhotoTag.Nature">@PhotoTag.Nature</a>
+                <a class="dropdown-item" asp-route-year = "@Model.Year" asp-route-tag="@PhotoTag.People">@PhotoTag.People</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="photoalbum">
+    
+        <div class="card-columns">
+            @if (Model.PhotoCollection.Count > 0)
+            {
+                foreach (var image in Model.PhotoCollection)
+                {
+                    <div class="card">
+                        <a href="@image.FullPath"><img class="card-img-top" src="@image.FullPath" alt="Card image cap" ></a>
+                    </div>
+                }
+            }
+            else
+            {
+                <h3>No Images to display!</h3>
+            }
+        </div>
+
+
+</section>

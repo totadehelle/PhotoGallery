@@ -65,10 +65,21 @@ body {
   color:white;
 }
 
+.card-columns {
+  column-count: 4;
+}
+
+.card-columns.locationsBlock {
+  column-count: 1;
+}
+
 /* Small devices (landscape phones, 576px and up) */
 @media (min-width: 576px) {
   .locationsBlock{
     margin-bottom: 30px;
+  }
+  .card-columns.locationsBlock {
+    column-count: 3;
   }
   .card-img-overlay h5{
     font-size: 1.5rem;

@@ -1,0 +1,59 @@
+﻿@page
+@model TravelGalleryWeb.Pages.Admin.Photos.EditModel
+@using TravelGalleryWeb.Models
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Photo</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Photo.Id" />
+            <input type="hidden" asp-for="Photo.FullPath" />
+            <div class="form-group">
+                <label asp-for="Photo.Year" class="control-label"></label>
+                <input type="number" asp-for="Photo.Year" class="form-control" min="1990" max="2019" value="2019" />
+                <span asp-validation-for="Photo.Year" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Photo.Comment" class="control-label"></label>
+                <input asp-for="Photo.Comment" class="form-control" />
+                <span asp-validation-for="Photo.Comment" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="Photo.AlbumId" class="control-label"></label>
+                <select asp-for="Photo.AlbumId" asp-items="Model.AlbumsList" class="form-control">
+                    <option value=""></option>
+                </select>
+                <span asp-validation-for="Photo.AlbumId" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="Photo.Tag" class="control-label"></label>
+                <select asp-for="Photo.Tag" class="form-control">
+                    <option>@PhotoTag.Nature</option>
+                    <option>@PhotoTag.People</option>
+                </select>
+                <span asp-validation-for="Photo.Tag" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

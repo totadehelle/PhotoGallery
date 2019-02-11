@@ -1,4 +1,6 @@
 ﻿@page
+@using Newtonsoft.Json.Linq
+@using TravelGalleryWeb.Models
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
@@ -13,102 +15,21 @@
     </div>
 </section>
 
-<section class="locations">
+<section>
         
     <div class="container">
-
-        <div class="card-deck locationsBlock">
-                
-            <div class="card bg-white text-white">
-                <a asp-area="" asp-page="/Album">
-                    <img src="images/alps.png" class="card-img" alt="...">
-                    <div class="card-img-overlay d-flex align-items-end px-0">
-                        <h5 class="card-title flex-fill pl-3">Alps</h5>
-                    </div>
-                </a>
-            </div>          
-               
-            <div class="card bg-white text-white">
-                <a asp-area="" asp-page="/Album">
-                <img src="images/crimea.jpg" class="card-img" alt="...">
-                <div class="card-img-overlay d-flex align-items-end px-0">
-                    <h5 class="card-title flex-fill pl-3">Crimea</h5>
+        <div class="card-columns locationsBlock">
+            @foreach (var album in Model.AlbumList)
+            {
+                <div class="card bg-white text-white" style="">
+                    <a asp-page="/Album" asp-route-id="@album.Id">
+                        <img src=@album.Cover class="card-img" alt="...">
+                        <div class="card-img-overlay d-flex align-items-end px-0">
+                            <h5 class="card-title flex-fill pl-3">@album.Name</h5>
+                        </div>
+                    </a>
                 </div>
-                </a>
-            </div>
-               
-            <div class="card bg-white text-white">
-                <a asp-area="" asp-page="/Album">
-                <img src="images/norway.jpg" class="card-img" alt="...">
-                <div class="card-img-overlay d-flex align-items-end px-0">
-                    <h5 class="card-title flex-fill pl-3">Norway</h5>
-                </div>
-                </a>
-            </div> 
+            }
         </div>
-
-        <div class="card-deck locationsBlock">
-        
-            <div class="card bg-white text-white">
-                <a asp-area="" asp-page="/Album">
-                <img src="images/altay.jpg" class="card-img" alt="...">
-                <div class="card-img-overlay d-flex align-items-end px-0">
-                    <h5 class="card-title flex-fill pl-3">Altai</h5>
-                </div>
-                </a>
-            </div>
-            
-            <div class="card bg-white text-white">
-                <a asp-area="" asp-page="/Album">
-                <img src="images/carpatian.jpg" class="card-img" alt="...">
-                <div class="card-img-overlay d-flex align-items-end px-0">
-                    <h5 class="card-title flex-fill pl-3">Carpathians</h5>
-                </div>
-                </a>
-            </div>
-                
-            <div class="card bg-white text-white">
-                <a asp-area="" asp-page="/Album">
-                <img src="images/caucasus.jpg" class="card-img" alt="...">
-                <div class="card-img-overlay d-flex align-items-end px-0">
-                    <h5 class="card-title flex-fill pl-3">Caucasus</h5>
-                </div>
-                </a>
-            </div>
-
-        </div>
-           
-        <div class="card-deck locationsBlock">
-           
-            <div class="card bg-white text-white">
-                <a asp-area="" asp-page="/Album">
-                <img src="images/iceland.jpg" class="card-img" alt="...">
-                <div class="card-img-overlay d-flex align-items-end px-0">
-                    <h5 class="card-title flex-fill pl-3">Iceland</h5>
-                </div>
-                </a>
-            </div>
-            
-            <div class="card bg-white text-white">
-                <a asp-area="" asp-page="/Album">
-                <img src="images/mount.jpg" class="card-img" alt="...">
-                <div class="card-img-overlay d-flex align-items-end px-0">
-                    <h5 class="card-title flex-fill pl-3">Lake Baikal</h5>
-                </div>
-                </a>
-            </div>
-
-            <div class="card bg-white text-white">
-                <a asp-area="" asp-page="/Album">
-                <img src="images/sayan.jpg" class="card-img" alt="...">
-                <div class="card-img-overlay d-flex align-items-end px-0">
-                    <h5 class="card-title flex-fill pl-3">East Sayan</h5>
-                </div>
-                </a>
-            </div>
-            
-        </div>
-
     </div>
-
 </section>
