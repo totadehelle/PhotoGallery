@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TravelGalleryWeb.Data;
+using TravelGalleryWeb.Pages.Admin;
 
 namespace TravelGalleryWeb
 {
@@ -45,11 +46,13 @@ namespace TravelGalleryWeb
                     options.AccessDeniedPath = "/Admin/Signin";
                     options.LoginPath = "/Admin/Signin";
                     options.LogoutPath = "/Index";
+                    options.EventsType = typeof(CustomCookieAuthenticationEvents);
                 });
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("RequireAdministratorRole", policy => policy.RequireRole("Administrator"));
             });
+            services.AddScoped<CustomCookieAuthenticationEvents>();
 
         }
 

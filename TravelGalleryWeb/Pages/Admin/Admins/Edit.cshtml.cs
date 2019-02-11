@@ -1,7 +1,7 @@
 ﻿
+using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -45,6 +45,7 @@ namespace TravelGalleryWeb.Pages.Admin.Admins
             }
 
             Admin.Password = EncryptionTools.HashPassword(Admin.Password);
+            Admin.LastChanged = DateTime.Now;
             
             _context.Attach(Admin).State = EntityState.Modified;
 

@@ -14,7 +14,7 @@ namespace TravelGalleryWeb.Pages.Admin.Photos
     {
         private readonly ApplicationContext _context;
         
-        public List<SelectListItem> AlbumsList => _context.Albums
+        public List<SelectListItem> AlbumsList => _context.Albums.AsNoTracking()
             .Select(album => new SelectListItem {
                 Value = album.Id.ToString(),
                 Text = album.Name

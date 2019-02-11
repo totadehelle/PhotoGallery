@@ -21,7 +21,7 @@ namespace TravelGalleryWeb.Pages.Admin.Photos
 
         public async Task OnGetAsync()
         {
-            Photos = await _context.Photos.Join(_context.Albums,
+            Photos = await _context.Photos.AsNoTracking().Join(_context.Albums,
                 p => p.AlbumId,
                 a => a.Id,
                 (p, a) => new DisplayPhoto()

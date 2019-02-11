@@ -19,6 +19,9 @@
         <th>
             @Html.DisplayNameFor(model => model.Admins[0].Role)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Admins[0].LastChanged)
+        </th>
     </tr>
     </thead>
     <tbody>
@@ -29,6 +32,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Role)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastChanged)
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |

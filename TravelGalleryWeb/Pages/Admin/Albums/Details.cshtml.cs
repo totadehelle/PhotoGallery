@@ -27,14 +27,14 @@ namespace TravelGalleryWeb.Pages.Admin.Albums
                 return NotFound();
             }
 
-            Album = await _context.Albums.FirstOrDefaultAsync(m => m.Id == id);
+            Album = await _context.Albums.AsNoTracking().FirstOrDefaultAsync(m => m.Id == id);
 
             if (Album == null)
             {
                 return NotFound();
             }
 
-            NumberOfPhotos = _context.Photos.Count(p => p.AlbumId == Album.Id);
+            NumberOfPhotos = _context.Photos.AsNoTracking().Count(p => p.AlbumId == Album.Id);
             
             return Page();
         }

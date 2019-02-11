@@ -20,7 +20,7 @@ namespace TravelGalleryWeb.Pages
         
         public void OnGet()
         {
-            AlbumList = _context.Albums.Select(p => p).ToList();
+            AlbumList = _context.Albums.AsNoTracking().Select(p => p).ToList();
         }
     }
 }

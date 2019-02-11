@@ -21,7 +21,7 @@ namespace TravelGalleryWeb.Pages.Admin.Admins
 
         public async Task OnGetAsync()
         {
-            Admins = await _context.Admins.ToListAsync();
+            Admins = await _context.Admins.AsNoTracking().ToListAsync();
         }
     }
 }
