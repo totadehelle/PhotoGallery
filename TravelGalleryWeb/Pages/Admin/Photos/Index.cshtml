@@ -1,4 +1,4 @@
-﻿@page "{id?}"
+﻿@page "{id?}/{pagenumber?}"
 @model TravelGalleryWeb.Pages.Admin.Photos.IndexModel
 
 @{
@@ -18,6 +18,8 @@
                 Current album: @Model.AlbumName
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+               
+                
                 @foreach (var album in Model.AlbumsList)
                 {
                     <a class="dropdown-item" asp-route-id="@album.Value">@album.Text</a>    
@@ -28,30 +30,22 @@
     
     <div class="btn-group mr-2" role="group" aria-label="Year group">
         
-        @if (Model.PageCurrent < 2)
+        @if (Model.PagesTotal > 1)
         {
-            <button class="btn btn-outline-dark" type="button" disabled>Previous</button>
+            for (var i = 1; i <= @Model.PagesTotal; i++)
+            {
+                 if (i == @Model.PageNumber)
+                 {
+                     <a class="btn btn-outline-dark active" asp-route-id="@Model.Id" asp-route-pagenumber="@i">@i</a>
+                 }
+
+                 else
+                {
+
+                    <a class="btn btn-outline-dark" asp-route-id="@Model.Id" asp-route-pagenumber="@i">@i</a>
+                }
+            }
         }
-        else
-        {
-            <a class="btn btn-outline-dark" asp-page-handler="Previous">Previous</a>
-        }
-        
-        
-        <button class="btn btn-outline-dark" type="button" disabled>
-            Page @Model.PageCurrent of @Model.PagesTotal
-        </button>
-        
-        @if (Model.PageCurrent >= Model.PagesTotal)
-        {
-            <button class="btn btn-outline-dark" type="button" disabled>Next</button>
-        }
-        else
-        {
-            <a class="btn btn-outline-dark" asp-page-handler="Next">Next</a>
-        }
-        
-            
         
     </div>
 </div>
