@@ -11,6 +11,7 @@ using TravelGalleryWeb.Data;
 
 namespace TravelGalleryWeb.Pages.Admin.Albums
 {
+    
     public class CreateModel : PageModel
     {
         private readonly ApplicationContext _context;
@@ -30,6 +31,7 @@ namespace TravelGalleryWeb.Pages.Admin.Albums
         [BindProperty]
         public Album Album { get; set; }
 
+        
         public async Task<IActionResult> OnPostAsync(IFormCollection CoverImage)
         {
             if (!ModelState.IsValid)

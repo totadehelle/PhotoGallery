@@ -1,15 +1,60 @@
-﻿@page
+﻿@page "{id:int?}/{pagenumber:int?}"
 @model TravelGalleryWeb.Pages.Admin.Photos.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Photos";
 }
 
-<h1>Index</h1>
+<h1>Photos</h1>
 
 <p>
-    <a asp-page="Create">Create New</a>
+    <a asp-page="Create">Upload new photos</a>
 </p>
+
+<div class="btn-toolbar mb-2" role="toolbar" aria-label="Toolbar">
+    <div class="btn-group mr-2" role="group" aria-label="Tag filter">
+        <div class="dropdown">
+            <button class="btn btn-outline-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Current album: @Model.AlbumName
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+               
+                
+                @foreach (var album in Model.AlbumsList)
+                {
+                    <a class="dropdown-item" asp-route-id="@album.Value">@album.Text</a>    
+                }
+            </div>
+        </div>
+    </div>
+    
+    <div class="btn-group mr-2" role="group" aria-label="Year group">
+        
+        @if (Model.PagesTotal > 1)
+        {
+            for (var i = 1; i <= @Model.PagesTotal; i++)
+            {
+                 if (i == @Model.PageNumber)
+                 {
+                     <a class="btn btn-outline-dark active" asp-route-id="@Model.Id" asp-route-pagenumber="@i">@i</a>
+                 }
+
+                 else
+                {
+
+                    <a class="btn btn-outline-dark" asp-route-id="@Model.Id" asp-route-pagenumber="@i">@i</a>
+                }
+            }
+        }
+        
+    </div>
+</div>
+
+
+
+
+
+
 <table class="table">
     <thead>
     <tr>

@@ -15,6 +15,7 @@ using TravelGalleryWeb.Data;
 
 namespace TravelGalleryWeb.Pages.Admin.Photos
 {
+    [RequestSizeLimit(bytes: 100_000_000)]
     public class CreateModel : PageModel
     {
         private readonly ApplicationContext _context;
