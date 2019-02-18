@@ -6,7 +6,7 @@ namespace TravelGalleryWeb.Pages.Admin.Admins
 {
     internal static class EncryptionTools
     {
-        private const string Salt = "3769011ffb974839a44d2110f9683bf7";
+        private const string Salt = "c0efb10d15a14af2a6b07ce5208cc7d8";//"3769011ffb974839a44d2110f9683bf7";
         
         internal static string HashPassword(string password)
         {

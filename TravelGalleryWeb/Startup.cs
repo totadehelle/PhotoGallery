@@ -1,11 +1,14 @@
+using System;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TravelGalleryWeb.Data;
+using TravelGalleryWeb.Models;
 using TravelGalleryWeb.Pages.Admin;
 
 namespace TravelGalleryWeb
@@ -15,6 +18,23 @@ namespace TravelGalleryWeb
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            using (var context = new ApplicationContext())
+            {
+                context.Database.EnsureCreated();
+                if (!context.Admins.Any())
+                {
+                    var admin = new Admin()
+                    {
+                        Login = "admin",
+                        Password = "b5c07d9dcbce8a5e97e44e3130f20a71",
+                        LastChanged = DateTime.Now,
+                        Role = Role.Administrator
+                    };
+                    context.Admins.Add(admin);
+                    context.SaveChanges();
+                }
+            }
+
         }
 
         public IConfiguration Configuration { get; }
@@ -35,8 +55,6 @@ namespace TravelGalleryWeb
                 {
                     options.Conventions.AuthorizeFolder("/Admin").AllowAnonymousToPage("/Admin/Signin");
                     options.Conventions.AuthorizeFolder("/Admin/Admins", "RequireAdministratorRole");
-                    
-                    
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddEntityFrameworkSqlite().AddDbContext<ApplicationContext>();

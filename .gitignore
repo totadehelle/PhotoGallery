@@ -1,4 +1,5 @@
 .idea
+.vs
 TravelGalleryWeb/TravelGalleryContext.db
 TravelGalleryWeb/wwwroot/uploadedFiles
 TravelGalleryWeb/bin

@@ -63,11 +63,11 @@ namespace TravelGalleryWeb.Pages.Admin.Photos
                     (p, a) => new DisplayPhoto()
                     {
                         Id = p.Id,
+                        AlbumName = p.Album.Name,
+                        Comment = p.Comment,
                         FullPath = p.FullPath,
                         Tag = p.Tag,
-                        Comment = p.Comment,
-                        Year = p.Year,
-                        AlbumName = a.Name
+                        Year = p.Year
                     }).Skip((PageNumber -1) * PageSize).Take(PageSize).ToListAsync();
             }
         }

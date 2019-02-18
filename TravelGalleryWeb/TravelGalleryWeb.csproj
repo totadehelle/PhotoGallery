@@ -9,10 +9,10 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.App" />
         <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.1" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.1" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.2.1" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.1" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.2" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.2" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.2.2" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.2" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.Design" Version="2.0.0-preview1-final" />        
     </ItemGroup>
         
@@ -27,6 +27,13 @@
       <Content Remove="Pages\ImageUpload.cshtml" />
       <Content Remove="Pages\Test.cshtml" />
       <Content Remove="Pages\Admin\Admins\Details.cshtml" />
+      <Content Remove="wwwroot\images\alps.png" />
+      <Content Remove="wwwroot\images\altai.jpg" />
+      <Content Remove="wwwroot\images\caucasus.jpg" />
+      <Content Remove="wwwroot\images\crimea.jpg" />
+      <Content Remove="wwwroot\images\iceland.jpg" />
+      <Content Remove="wwwroot\images\norway.jpg" />
+      <Content Remove="wwwroot\images\sayan.jpg" />
     </ItemGroup>
 
 
