@@ -6,7 +6,7 @@ namespace TravelGalleryWeb.Models
     {
         public int Id;
         
-        [Display(Name = "Full path")]
+        [Display(Name = "Preview")]
         public string FullPath;
         
         public PhotoTag Tag;

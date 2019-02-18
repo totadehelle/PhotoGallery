@@ -10,9 +10,9 @@ namespace TravelGalleryWeb.Data
         public DbSet<Album> Albums { get; set; }
         public DbSet<Admin> Admins { get; set; }
 
-        public ApplicationContext(DbContextOptions<ApplicationContext> options)
-            : base(options)
-        { }
+        //public ApplicationContext(DbContextOptions<ApplicationContext> options)
+        //   : base(options)
+        //{ }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
