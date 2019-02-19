@@ -26,7 +26,7 @@ namespace TravelGalleryWeb
                     var admin = new Admin()
                     {
                         Login = "admin",
-                        Password = "b5c07d9dcbce8a5e97e44e3130f20a71",
+                        Password = "b5c07d9dcbce8a5e97e44e3130f20a71", //qwerty
                         LastChanged = DateTime.Now,
                         Role = Role.Administrator
                     };
