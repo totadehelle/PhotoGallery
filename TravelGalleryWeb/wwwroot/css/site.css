@@ -71,28 +71,31 @@ body {
   column-count: 1;
 }
 
-/*.carousel-inner{
-  position: absolute;
-  z-index: 1;
-}*/
+div .modal-content{
+    background-color: transparent; 
+  border-color: transparent;
+}
 
 .carousel-caption{
-  color: #1d2124;
-  background-color: rgba(255,255,255, 0.5);
-  padding-top: 0;
-  padding-bottom: 0;
-  border-radius: 10px;
+  color: #ffffff;
   word-wrap: break-word;
-  max-width: 100%;
+  text-shadow: 2px 2px 0 #4074b5, 2px -2px 0 #4074b5, -2px 2px 0 #4074b5, -2px -2px 0 #4074b5, 2px 0px 0 #4074b5, 0px 2px 0 #4074b5, -2px 0px 0 #4074b5, 0px -2px 0 #4074b5;
+  max-width: 300px;
+  bottom: 0;
+  font-size: 20px;
+  margin: auto;
+
 }
 
 .img-fluid{
-  max-width: 100%;
   max-height: 900px;
   margin: auto;
-  height: auto;
+  min-width: 300px;
 }
 
+.cImage:hover + .carousel-caption {
+  visibility: hidden;
+}
 
 /* Small devices (landscape phones, 576px and up) */
 @media (min-width: 576px) {

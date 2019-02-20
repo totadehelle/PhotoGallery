@@ -34,6 +34,7 @@
       <Content Remove="wwwroot\images\iceland.jpg" />
       <Content Remove="wwwroot\images\norway.jpg" />
       <Content Remove="wwwroot\images\sayan.jpg" />
+      <Content Remove="Pages\Admin\Albums\Details.cshtml" />
     </ItemGroup>
 
 
@@ -42,6 +43,7 @@
       <Compile Remove="Pages\ImageUpload.cshtml.cs" />
       <Compile Remove="Pages\Test.cshtml.cs" />
       <Compile Remove="Pages\Admin\Admins\Details.cshtml.cs" />
+      <Compile Remove="Pages\Admin\Albums\Details.cshtml.cs" />
     </ItemGroup>
 
 

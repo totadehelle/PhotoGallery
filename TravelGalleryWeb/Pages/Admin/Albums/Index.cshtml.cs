@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using TravelGalleryWeb.Models;
 using TravelGalleryWeb.Data;
+using System.Linq;
 
 namespace TravelGalleryWeb.Pages.Admin.Albums
 {
@@ -21,6 +22,11 @@ namespace TravelGalleryWeb.Pages.Admin.Albums
         public async Task OnGetAsync()
         {
             Albums = await _context.Albums.AsNoTracking().ToListAsync();
+        }
+
+        public int NumberOfPhotos(Album album)
+        {
+            return _context.Photos.AsNoTracking().Count(p => p.AlbumId == album.Id);
         }
     }
 }
