@@ -71,10 +71,10 @@ body {
   column-count: 1;
 }
 
-.carousel-inner{
+/*.carousel-inner{
   position: absolute;
   z-index: 1;
-}
+}*/
 
 .carousel-caption{
   color: #1d2124;
@@ -88,7 +88,7 @@ body {
 
 .img-fluid{
   max-width: 100%;
-  max-height: 800px;
+  max-height: 900px;
   margin: auto;
   height: auto;
 }
