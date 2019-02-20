@@ -26,7 +26,7 @@ namespace TravelGalleryWeb
                     var admin = new Admin()
                     {
                         Login = "admin",
-                        Password = "b5c07d9dcbce8a5e97e44e3130f20a71",
+                        Password = "b5c07d9dcbce8a5e97e44e3130f20a71", //qwerty
                         LastChanged = DateTime.Now,
                         Role = Role.Administrator
                     };
@@ -85,7 +85,7 @@ namespace TravelGalleryWeb
             {
                 app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
+                //app.UseHsts();
             }
 
             var cookiePolicyOptions = new CookiePolicyOptions

@@ -71,6 +71,29 @@ body {
   column-count: 1;
 }
 
+/*.carousel-inner{
+  position: absolute;
+  z-index: 1;
+}*/
+
+.carousel-caption{
+  color: #1d2124;
+  background-color: rgba(255,255,255, 0.5);
+  padding-top: 0;
+  padding-bottom: 0;
+  border-radius: 10px;
+  word-wrap: break-word;
+  max-width: 100%;
+}
+
+.img-fluid{
+  max-width: 100%;
+  max-height: 900px;
+  margin: auto;
+  height: auto;
+}
+
+
 /* Small devices (landscape phones, 576px and up) */
 @media (min-width: 576px) {
   .locationsBlock{
