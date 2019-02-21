@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -53,6 +54,16 @@ namespace TravelGalleryWeb.Pages.Admin.Albums
                 if (System.IO.File.Exists(_appEnvironment.WebRootPath + Album.Cover))
                 {
                     System.IO.File.Delete(_appEnvironment.WebRootPath + Album.Cover);
+                }
+                
+                string[] relatedPhotos = _context.Photos.Where(p => p.AlbumId == Album.Id).Select(p => p.FullPath).ToArray();
+
+                foreach (var path in relatedPhotos)
+                {
+                    if (System.IO.File.Exists(_appEnvironment.WebRootPath + path))
+                    {
+                        System.IO.File.Delete(_appEnvironment.WebRootPath + path);
+                    }
                 }
                 
                 _context.Albums.Remove(Album);
