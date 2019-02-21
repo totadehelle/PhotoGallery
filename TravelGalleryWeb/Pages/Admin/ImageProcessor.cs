@@ -2,31 +2,35 @@ using System;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
 using System.IO;
+using Microsoft.Extensions.Options;
 using SixLabors.ImageSharp.PixelFormats;
 
 namespace TravelGalleryWeb.Pages.Admin
 {
-    public static class ImageProcessor
+    public class ImageProcessor
     {
-        private const int ImageHeight = 900;
-        private const int CoverHeight = 350;
-        public static void Resize(string originPath, string resizedPath, bool isAlbumCover)
+        public ImageProcessor(IOptions<Constants> config)
         {
-            using (Image<Rgba32> image = Image.Load(originPath))
+            _imageHeight = config.Value.PhotoHeight;
+            _coverHeight = config.Value.CoverHeight;
+        }
+
+        private readonly int _imageHeight;
+        private readonly int _coverHeight;
+        public void Resize(string originPath, string resizedPath, bool isAlbumCover)
+        {
+            using (var image = Image.Load(originPath))
             {
                 if (image == null) return;
 
-                var height = isAlbumCover ? CoverHeight : ImageHeight;
+                var height = isAlbumCover ? _coverHeight : _imageHeight;
 
-                if (image.Height > height)
-                {
-                    float coefficient = (float)image.Height / (float)height;
-                    int width = (int)(image.Width / coefficient);
-                    image.Mutate(x => x
-                        .Resize(width, height));
-                    image.Save(resizedPath); // Automatic encoder selected based on extension.
-                }
-                
+                if (image.Height <= height) return;
+                var coefficient = (float)image.Height / (float)height;
+                var width = (int)(image.Width / coefficient);
+                image.Mutate(x => x
+                    .Resize(width, height));
+                image.Save(resizedPath); // Automatic encoder selected based on extension.
             }    
         }
     }

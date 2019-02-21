@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using TravelGalleryWeb.Models;
 using TravelGalleryWeb.Data;
 
@@ -18,11 +19,13 @@ namespace TravelGalleryWeb.Pages.Admin.Admins
     public class CreateModel : PageModel
     {
         private readonly ApplicationContext _context;
+        private readonly EncryptionTools _encryption;
         public string Message { get; set; }
 
-        public CreateModel(ApplicationContext context)
+        public CreateModel(ApplicationContext context, IOptions<Constants> config)
         {
             _context = context;
+            _encryption = new EncryptionTools(config);
         }
 
         public IActionResult OnGet()
@@ -48,10 +51,10 @@ namespace TravelGalleryWeb.Pages.Admin.Admins
 
             Message = null;
 
-            Admin.Password = EncryptionTools.HashPassword(Admin.Password);
+            Admin.Password = _encryption.HashPassword(Admin.Password);
             Admin.LastChanged = DateTime.Now;
             
-            _context.Admins.Add(Admin);
+            await _context.Admins.AddAsync(Admin);
                 
             await _context.SaveChangesAsync();
 

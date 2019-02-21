@@ -18,12 +18,12 @@
             <input type="hidden" asp-for="Photo.FullPath" />
             <div class="form-group">
                 <label asp-for="Photo.Year" class="control-label"></label>
-                <input type="number" asp-for="Photo.Year" class="form-control" min="1990" max="2019" value="2019" />
+                <input type="number" asp-for="Photo.Year" class="form-control" min="1990" max="2019" />
                 <span asp-validation-for="Photo.Year" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Photo.Comment" class="control-label"></label>
-                <input asp-for="Photo.Comment" class="form-control" />
+                <input asp-for="Photo.Comment" class="form-control" maxlength="200" />
                 <span asp-validation-for="Photo.Comment" class="text-danger"></span>
             </div>
             

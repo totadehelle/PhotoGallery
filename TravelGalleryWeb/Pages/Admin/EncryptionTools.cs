@@ -1,14 +1,20 @@
 using System;
 using System.Security.Cryptography;
 using System.Text;
+using Microsoft.Extensions.Options;
 
 namespace TravelGalleryWeb.Pages.Admin.Admins
 {
-    internal static class EncryptionTools
+    internal class EncryptionTools
     {
-        private const string Salt = "c0efb10d15a14af2a6b07ce5208cc7d8";//"3769011ffb974839a44d2110f9683bf7";
-        
-        internal static string HashPassword(string password)
+        private readonly IOptions<Constants> _config;
+        private readonly string Salt;
+        public EncryptionTools(IOptions<Constants> config)
+        {
+            _config = config;
+            Salt = _config.Value.Salt;
+        }
+        internal string HashPassword(string password)
         {
             var md5Hasher = new MD5CryptoServiceProvider();
             var data = md5Hasher.ComputeHash(Encoding.Default.GetBytes(password+Salt));
@@ -20,7 +26,7 @@ namespace TravelGalleryWeb.Pages.Admin.Admins
             return sBuilder.ToString();
         }
         
-        internal static bool VerifyPassword(string input, string hash)
+        internal bool VerifyPassword(string input, string hash)
         {
             var hashOfInput = HashPassword(input);
             var comparer = StringComparer.OrdinalIgnoreCase;

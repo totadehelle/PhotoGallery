@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using TravelGalleryWeb.Data;
 using TravelGalleryWeb.Models;
 using TravelGalleryWeb.Pages.Admin;
+using TravelGalleryWeb.Pages.Admin.Admins;
 
 namespace TravelGalleryWeb
 {
@@ -21,18 +22,16 @@ namespace TravelGalleryWeb
             using (var context = new ApplicationContext())
             {
                 context.Database.EnsureCreated();
-                if (!context.Admins.Any())
+                if (context.Admins.Any()) return;
+                var admin = new Admin()
                 {
-                    var admin = new Admin()
-                    {
-                        Login = "admin",
-                        Password = "b5c07d9dcbce8a5e97e44e3130f20a71", //qwerty
-                        LastChanged = DateTime.Now,
-                        Role = Role.Administrator
-                    };
-                    context.Admins.Add(admin);
-                    context.SaveChanges();
-                }
+                    Login = "admin",
+                    Password = configuration.GetSection("Constants")["DefaultPass"], //"qwerty"
+                    LastChanged = DateTime.Now,
+                    Role = Role.Administrator
+                };
+                context.Admins.Add(admin);
+                context.SaveChanges();
             }
 
         }
@@ -71,6 +70,9 @@ namespace TravelGalleryWeb
                 options.AddPolicy("RequireAdministratorRole", policy => policy.RequireRole("Administrator"));
             });
             services.AddScoped<CustomCookieAuthenticationEvents>();
+            
+            services.AddOptions();
+            services.Configure<Constants>(Configuration.GetSection("Constants"));
 
         }
 
@@ -98,6 +100,7 @@ namespace TravelGalleryWeb
             app.UseCookiePolicy(cookiePolicyOptions);
             app.UseAuthentication();
             app.UseMvc();
+            //app.UseMiddleware<ConstantsMiddleware>();
         }
     }
 }

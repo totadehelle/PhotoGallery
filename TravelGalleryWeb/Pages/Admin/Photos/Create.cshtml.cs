@@ -9,17 +9,21 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using SQLitePCL;
 using TravelGalleryWeb.Models;
 using TravelGalleryWeb.Data;
 
 namespace TravelGalleryWeb.Pages.Admin.Photos
 {
-    [RequestSizeLimit(bytes: 100_000_000)]
+    [RequestSizeLimit(100_000_000)]
     public class CreateModel : PageModel
     {
         private readonly ApplicationContext _context;
         private readonly IHostingEnvironment _appEnvironment;
+        private readonly IOptions<Constants> _config;
+        private readonly ImageProcessor _processor;
+        public string Message { get; set; }
         
         public List<SelectListItem> AlbumsList => _context.Albums.AsNoTracking()
             .Select(album => new SelectListItem {
@@ -27,10 +31,12 @@ namespace TravelGalleryWeb.Pages.Admin.Photos
                 Text = album.Name
             }).ToList();
 
-        public CreateModel(ApplicationContext context, IHostingEnvironment appEnvironment)
+        public CreateModel(ApplicationContext context, IHostingEnvironment appEnvironment, IOptions<Constants> config)
         {
             _context = context;
             _appEnvironment = appEnvironment;
+            _config = config;
+            _processor = new ImageProcessor(_config);
         }
 
         public void OnGet()
@@ -47,38 +53,47 @@ namespace TravelGalleryWeb.Pages.Admin.Photos
             {
                 return Page();
             }
+
+            if (Images == null) return RedirectToPage("./Index");
             
-            if(Images != null){
-                foreach (var image in Images)
+            foreach (var image in Images)
+            {
+                if (Path.GetExtension(image.FileName).ToLower() != ".jpeg"
+                    && Path.GetExtension(image.FileName).ToLower() != ".jpg"
+                    && Path.GetExtension(image.FileName).ToLower() != ".gif"
+                    && Path.GetExtension(image.FileName).ToLower() != ".bmp"
+                    && Path.GetExtension(image.FileName).ToLower() != ".png")
                 {
-                    string newFileName = Guid.NewGuid().ToString() + "_" +
-                                         Path.GetFileName(image.FileName);
-                    string imagePath = @"/uploadedFiles/" + newFileName;
-                    string resizedImagePath = @"/resizedFiles/" + "r_" + newFileName;
-
-
-                    using (var fileStream = new FileStream(_appEnvironment.WebRootPath + imagePath, FileMode.Create))
-                    {
-                        await image.CopyToAsync(fileStream);
-                    }
-                    
-                    ImageProcessor.Resize(_appEnvironment.WebRootPath + imagePath,_appEnvironment.WebRootPath + resizedImagePath,false);
-
-                    var newPhoto = new Photo()
-                    {
-                        Album = Photo.Album, 
-                        Id = Photo.Id, 
-                        Tag = Photo.Tag, 
-                        Year = Photo.Year, 
-                        Comment = Photo.Comment, 
-                        AlbumId = Photo.AlbumId, 
-                        FullPath = resizedImagePath
-                    };
-                    
-                    _context.Photos.Add(newPhoto);
+                    Message = "Wrong image files format, possible formats are: PNG, GIF, BMP, JPEG, JPG.";
+                    return Page();
                 }
-                await _context.SaveChangesAsync();
+                    
+                var newFileName = Guid.NewGuid().ToString() + "_" +
+                                  Path.GetFileName(image.FileName);
+                var imagePath = _config.Value.UploadDir + newFileName;
+                var resizedImagePath = _config.Value.ResizedDir + _config.Value.ResizedPrefix + newFileName;
+                    
+                using (var fileStream = new FileStream(_appEnvironment.WebRootPath + imagePath, FileMode.Create))
+                {
+                    await image.CopyToAsync(fileStream);
+                }
+                    
+                _processor.Resize(_appEnvironment.WebRootPath + imagePath,_appEnvironment.WebRootPath + resizedImagePath,false);
+
+                var newPhoto = new Photo()
+                {
+                    Album = Photo.Album, 
+                    Id = Photo.Id, 
+                    Tag = Photo.Tag, 
+                    Year = Photo.Year, 
+                    Comment = Photo.Comment, 
+                    AlbumId = Photo.AlbumId, 
+                    FullPath = resizedImagePath
+                };
+                    
+                _context.Photos.Add(newPhoto);
             }
+            await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");
         }

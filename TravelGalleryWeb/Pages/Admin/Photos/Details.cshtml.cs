@@ -10,6 +10,7 @@ namespace TravelGalleryWeb.Pages.Admin.Photos
     public class DetailsModel : PageModel
     {
         private readonly ApplicationContext _context;
+        public string originPath { get; set; }
 
         public DetailsModel(ApplicationContext context)
         {
@@ -31,6 +32,9 @@ namespace TravelGalleryWeb.Pages.Admin.Photos
             {
                 return NotFound();
             }
+
+            originPath = Photo.FullPath.Replace("resizedFiles/r_", "uploadedFiles/");
+            
             return Page();
         }
     }
