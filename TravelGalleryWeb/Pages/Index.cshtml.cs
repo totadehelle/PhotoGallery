@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -17,14 +18,11 @@ namespace TravelGalleryWeb.Pages
         public IndexModel(ApplicationContext context)
         {
             _context = context;
-            
-            
         }
         
-        public void OnGet()
+        public async Task OnGetAsync()
         {
-            var a =_context.Database.GetDbConnection().ConnectionString;
-            AlbumList = _context.Albums.AsNoTracking().Select(p => p).ToList();
+            AlbumList = await _context.Albums.AsNoTracking().Select(p => p).ToListAsync();
         }
     }
 }

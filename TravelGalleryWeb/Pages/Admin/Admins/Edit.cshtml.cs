@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using TravelGalleryWeb.Data;
 
 namespace TravelGalleryWeb.Pages.Admin.Admins
@@ -12,10 +13,12 @@ namespace TravelGalleryWeb.Pages.Admin.Admins
     public class EditModel : PageModel
     {
         private readonly ApplicationContext _context;
+        private readonly EncryptionTools _encryption;
         
-        public EditModel(ApplicationContext context)
+        public EditModel(ApplicationContext context, IOptions<Constants> config)
         {
             _context = context;
+            _encryption = new EncryptionTools(config);
         }
 
         [BindProperty]
@@ -44,7 +47,7 @@ namespace TravelGalleryWeb.Pages.Admin.Admins
                 return Page();
             }
 
-            Admin.Password = EncryptionTools.HashPassword(Admin.Password);
+            Admin.Password = _encryption.HashPassword(Admin.Password);
             Admin.LastChanged = DateTime.Now;
             
             _context.Attach(Admin).State = EntityState.Modified;

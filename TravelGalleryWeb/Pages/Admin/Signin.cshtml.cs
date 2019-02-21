@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using TravelGalleryWeb.Data;
 using TravelGalleryWeb.Models;
 using TravelGalleryWeb.Pages.Admin.Admins;
@@ -17,6 +18,7 @@ namespace TravelGalleryWeb.Pages.Admin
     public class SigninModel : PageModel
     {
         private ApplicationContext _context;
+        private readonly EncryptionTools _encryption;
         public AuthStatus Status;
         public string UserName;
 
@@ -30,10 +32,10 @@ namespace TravelGalleryWeb.Pages.Admin
             Error,
         }
 
-        public SigninModel(ApplicationContext context)
+        public SigninModel(ApplicationContext context, IOptions<Constants> config)
         {
             _context = context;
-            
+            _encryption = new EncryptionTools(config);
         }
         
         public void OnGet()
@@ -51,7 +53,7 @@ namespace TravelGalleryWeb.Pages.Admin
 
         public async Task<IActionResult> OnPostAsync()
         {
-            var targetUser = _context.Admins.AsNoTracking().FirstOrDefault(t => t.Login == Admin.Login);
+            var targetUser = await _context.Admins.AsNoTracking().FirstOrDefaultAsync(t => t.Login == Admin.Login);
 
             if (targetUser == null)
             {
@@ -59,7 +61,7 @@ namespace TravelGalleryWeb.Pages.Admin
                 return Page();
             }
             
-            if (!EncryptionTools.VerifyPassword(Admin.Password, targetUser.Password))
+            if (!_encryption.VerifyPassword(Admin.Password, targetUser.Password))
             {
                 Status = AuthStatus.Error;
                 return Page();

@@ -49,7 +49,7 @@ namespace TravelGalleryWeb.Pages.Admin.Photos
                     Id = albums[0].Id;
                 }
 
-                AlbumName = albums.FirstOrDefault(a => a.Id == Id).Name;
+                AlbumName = albums.First(a => a.Id == Id).Name;
 
                 CalculatePages();
 

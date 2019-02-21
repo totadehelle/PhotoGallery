@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using TravelGalleryWeb.Models;
 using TravelGalleryWeb.Data;
 
@@ -17,12 +18,16 @@ namespace TravelGalleryWeb.Pages.Admin.Albums
     {
         private readonly ApplicationContext _context;
         private readonly IHostingEnvironment _appEnvironment;
+        private readonly IOptions<Constants> _config;
+        private readonly ImageProcessor _processor;
         public string Message { get; set; }  = "It is recommended to use square images for the cover.";
 
-        public CreateModel(ApplicationContext context, IHostingEnvironment appEnvironment)
+        public CreateModel(ApplicationContext context, IHostingEnvironment appEnvironment, IOptions<Constants> config)
         {
             _context = context;
             _appEnvironment = appEnvironment;
+            _config = config;
+            _processor = new ImageProcessor(_config);
         }
 
         public IActionResult OnGet()
@@ -34,7 +39,7 @@ namespace TravelGalleryWeb.Pages.Admin.Albums
         public Album Album { get; set; }
 
         
-        public async Task<IActionResult> OnPostAsync(IFormCollection CoverImage)
+        public async Task<IActionResult> OnPostAsync(IFormCollection coverImage)
         {
             if (!ModelState.IsValid)
             {
@@ -47,22 +52,31 @@ namespace TravelGalleryWeb.Pages.Admin.Albums
                 return Page();
             }
             
-            var file = CoverImage.Files.FirstOrDefault();
+            var file = coverImage.Files.FirstOrDefault();
 
             if (file != null)
             {
+                if (Path.GetExtension(file.FileName).ToLower() != ".jpeg"
+                    && Path.GetExtension(file.FileName).ToLower() != ".jpg"
+                    && Path.GetExtension(file.FileName).ToLower() != ".gif"
+                    && Path.GetExtension(file.FileName).ToLower() != ".bmp"
+                    && Path.GetExtension(file.FileName).ToLower() != ".png")
+                {
+                    Message = "Wrong image file format, possible formats are: PNG, GIF, BMP, JPEG, JPG.";
+                    return Page();
+                }
+                
                 var newFileName = Guid.NewGuid().ToString() + "_" +
                                   Path.GetFileName(file.FileName);
-                var imagePath = @"/uploadedFiles/" + newFileName;
-                string resizedImagePath = @"/resizedFiles/" + "r_" + newFileName;
-
+                var imagePath = _config.Value.UploadDir + newFileName;
+                var resizedImagePath = _config.Value.ResizedDir + _config.Value.ResizedPrefix + newFileName;
 
                 using (var fileStream = new FileStream(_appEnvironment.WebRootPath + imagePath, FileMode.Create))
                 {
                     await file.CopyToAsync(fileStream);
                 }
                 
-                ImageProcessor.Resize(_appEnvironment.WebRootPath + imagePath, _appEnvironment.WebRootPath + resizedImagePath,true);
+                _processor.Resize(_appEnvironment.WebRootPath + imagePath, _appEnvironment.WebRootPath + resizedImagePath,true);
 
                 Album.Cover = resizedImagePath;
             }

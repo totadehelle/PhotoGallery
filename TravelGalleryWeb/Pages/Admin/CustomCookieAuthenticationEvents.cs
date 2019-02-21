@@ -10,21 +10,20 @@ namespace TravelGalleryWeb.Pages.Admin
 {
     public class CustomCookieAuthenticationEvents: CookieAuthenticationEvents
     {
-        private readonly ApplicationContext _userRepository;
+        private readonly ApplicationContext _context;
 
-        public CustomCookieAuthenticationEvents(ApplicationContext userRepository)
+        public CustomCookieAuthenticationEvents(ApplicationContext context)
         {
-            // Get the database from registered DI services.
-            _userRepository = userRepository;
+            _context = context;
         }
 
         public override async Task ValidatePrincipal(CookieValidatePrincipalContext context)
         {
             var userPrincipal = context.Principal;
             
-            var name = (from c in userPrincipal.Claims
-                where c.Type == ClaimTypes.Name
-                select c.Value).FirstOrDefault();
+            var name = (from claim in userPrincipal.Claims
+                where claim.Type == ClaimTypes.Name
+                select claim.Value).FirstOrDefault();
 
             // Look for the LastChanged claim.
             var lastChanged = (from c in userPrincipal.Claims
@@ -43,7 +42,7 @@ namespace TravelGalleryWeb.Pages.Admin
 
         private async Task<bool> ValidateLastChanged(string lastChanged, string name)
         {
-            var targetUser = await _userRepository.Admins.AsNoTracking().FirstOrDefaultAsync(t => t.Login == name);
+            var targetUser = await _context.Admins.AsNoTracking().FirstOrDefaultAsync(t => t.Login == name);
             return targetUser != null && targetUser.LastChanged.ToString() == lastChanged;
         }
     }
