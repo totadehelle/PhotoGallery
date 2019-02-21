@@ -14,4 +14,5 @@ photos.forEach(function (photo) {
         var frame = document.getElementById(id);
         frame.classList.add("active");
     });
+    
 });

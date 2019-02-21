@@ -55,10 +55,10 @@
                                 @foreach (var image in Model.PhotoCollection)
                                 {
                                     <div class="carousel-item" id = @(image.Id+"f")>
-                                        <img class="d-block img-fluid" src="@image.FullPath" alt="...">
+                                        <img class="d-block img-fluid cImage" src="@image.FullPath" alt="...">
                                         @if (@image.Comment != null)
                                         {
-                                            <div class="carousel-caption d-none d-md-block">
+                                            <div class="carousel-caption">
                                                 <p>@image.Comment</p>
                                             </div>
                                         }

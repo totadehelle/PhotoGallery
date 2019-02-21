@@ -54,14 +54,17 @@ namespace TravelGalleryWeb.Pages.Admin.Photos
                     string newFileName = Guid.NewGuid().ToString() + "_" +
                                          Path.GetFileName(image.FileName);
                     string imagePath = @"/uploadedFiles/" + newFileName;
+                    string resizedImagePath = @"/resizedFiles/" + "r_" + newFileName;
 
 
                     using (var fileStream = new FileStream(_appEnvironment.WebRootPath + imagePath, FileMode.Create))
                     {
                         await image.CopyToAsync(fileStream);
                     }
+                    
+                    ImageProcessor.Resize(_appEnvironment.WebRootPath + imagePath,_appEnvironment.WebRootPath + resizedImagePath,false);
 
-                    Photo newPhoto = new Photo()
+                    var newPhoto = new Photo()
                     {
                         Album = Photo.Album, 
                         Id = Photo.Id, 
@@ -69,7 +72,7 @@ namespace TravelGalleryWeb.Pages.Admin.Photos
                         Year = Photo.Year, 
                         Comment = Photo.Comment, 
                         AlbumId = Photo.AlbumId, 
-                        FullPath = imagePath
+                        FullPath = resizedImagePath
                     };
                     
                     _context.Photos.Add(newPhoto);
