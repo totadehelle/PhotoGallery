@@ -55,7 +55,7 @@ namespace TravelGalleryWeb.Pages.Admin.Albums
                 return Page();
             }
             
-            if (AlbumExists(Album.Name))
+            if (AlbumExists(Album.Name, Album.Id))
             {
                 Message = "Album with this name already exists, please choose other name.";
                 return Page();
@@ -86,7 +86,8 @@ namespace TravelGalleryWeb.Pages.Admin.Albums
                     await file.CopyToAsync(fileStream);
                 }
                 
-                _processor.Resize(_appEnvironment.WebRootPath + imagePath, _appEnvironment.WebRootPath + resizedImagePath,true);
+                _processor.Resize(_appEnvironment.WebRootPath + imagePath, _appEnvironment.WebRootPath + resizedImagePath,
+                    true, false);
                 
                 if (System.IO.File.Exists(_appEnvironment.WebRootPath + Album.Cover))
                 {
@@ -122,9 +123,9 @@ namespace TravelGalleryWeb.Pages.Admin.Albums
             return _context.Albums.Any(e => e.Id == id);
         }
         
-        private bool AlbumExists(string name)
+        private bool AlbumExists(string name, int id)
         {
-            return _context.Albums.AsNoTracking().Any(e => e.Name == name);
+            return _context.Albums.AsNoTracking().Any(e => e.Name == name && e.Id != id);
         }
     }
 }

@@ -86,8 +86,8 @@
         
             @foreach (var image in Model.PhotoCollection)
             {
-                <div class="card">
-                    <a data-toggle="modal" data-target="#ModalCarousel" id = @image.Id class="photoLink"><img class="card-img-top" src="@image.FullPath" alt="Card image cap"></a>
+              <div class="card">
+                    <a data-toggle="modal" data-target="#ModalCarousel" id = @image.Id class="photoLink"><img class="card-img-top" src="@Model.FindPreview(image.FullPath)" alt="Card image cap"></a>
                 </div>
             }
                 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using TravelGalleryWeb.Models;
 using TravelGalleryWeb.Data;
 
@@ -12,6 +13,7 @@ namespace TravelGalleryWeb.Pages
     public class AlbumModel : PageModel
     {
         private ApplicationContext _context;
+        private readonly IOptions<Constants> _congig;
         
         [BindProperty(SupportsGet = true)] public int Id { get; set; }
         [BindProperty(SupportsGet = true)] public int Year { get; set; }
@@ -22,9 +24,10 @@ namespace TravelGalleryWeb.Pages
         
         public List<int> Years { get; set; }
 
-        public AlbumModel(ApplicationContext context)
+        public AlbumModel(ApplicationContext context, IOptions<Constants> congig)
         {
             _context = context;
+            _congig = congig;
         }
         
         public async Task OnGetAsync()
@@ -57,6 +60,12 @@ namespace TravelGalleryWeb.Pages
                 .Where(p => p.AlbumId == Id)
                 .Where(p => p.Year == Year)
                 .ToListAsync();
+        }
+
+        public string FindPreview(string path)
+        {
+            return path.Replace(_congig.Value.ResizedDir + _congig.Value.ResizedPrefix,
+                _congig.Value.PreviewDir + _congig.Value.PreviewPrefix);
         }
     }
 }

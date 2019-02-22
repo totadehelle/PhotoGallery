@@ -53,6 +53,14 @@ namespace TravelGalleryWeb.Pages.Admin.Photos
                 {
                     System.IO.File.Delete(_appEnvironment.WebRootPath + Photo.FullPath);
                 }
+
+                var previewPath = _appEnvironment.WebRootPath +
+                                  Photo.FullPath.Replace("resizedFiles/r_", "previewFiles/p_");
+                
+                if (System.IO.File.Exists(previewPath))
+                {
+                    System.IO.File.Delete(previewPath);
+                }
                 _context.Photos.Remove(Photo);
                 await _context.SaveChangesAsync();
             }

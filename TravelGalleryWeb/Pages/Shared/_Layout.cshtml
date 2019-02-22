@@ -4,6 +4,8 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta lang="en" />
+    <meta name="theme-color" content="#454545"/>
     <title>@ViewData["Title"] - MyTravelGallery</title>
 
     <environment include="Development">
@@ -26,7 +28,7 @@
 
 <header>
     <nav id="mainNav" class="navbar navbar-expand-sm navbar-dark bg-dark py-0 border-bottom">
-        <a class="navbar-brand" href="#"><img src="/images/mountain-range-32.png" alt=""></a>
+        <a class="navbar-brand" href="#"><img src="/images/mountain-range-32.png" alt="Mountain picture"></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -46,7 +48,7 @@
             </ul>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" asp-area="" asp-page="/Admin/Index"><img src="/images/login24.png" alt=""></a>
+                    <a class="nav-link" asp-area="" asp-page="/Admin/Index"><img src="/images/login24.png" alt="Enter for the site administrator"></a>
                 </li>
             </ul>
         </div>
@@ -54,12 +56,12 @@
 </header>
 
 <div class="container">
-    <main role="main" class="pb-3">
+    <main role="main">
         @RenderBody()
     </main>
 </div>
 
-<footer class="border-top footer text-center text-dark">
+<footer class="border-top footer text-center text-dark mb-0">
         &copy; MyTravelGallery.ru, Elena Saburova, 2019 | All rights reserved 
 </footer>
 
