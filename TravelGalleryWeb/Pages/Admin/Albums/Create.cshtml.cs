@@ -76,7 +76,8 @@ namespace TravelGalleryWeb.Pages.Admin.Albums
                     await file.CopyToAsync(fileStream);
                 }
                 
-                _processor.Resize(_appEnvironment.WebRootPath + imagePath, _appEnvironment.WebRootPath + resizedImagePath,true);
+                _processor.Resize(_appEnvironment.WebRootPath + imagePath, _appEnvironment.WebRootPath + resizedImagePath,
+                    true, false);
 
                 Album.Cover = resizedImagePath;
             }
