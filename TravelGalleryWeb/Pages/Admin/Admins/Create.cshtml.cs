@@ -52,7 +52,7 @@ namespace TravelGalleryWeb.Pages.Admin.Admins
             Message = null;
 
             Admin.Password = _encryption.HashPassword(Admin.Password);
-            Admin.LastChanged = DateTime.Now;
+            Admin.LastChanged = DateTime.Now.ToUniversalTime();
             
             await _context.Admins.AddAsync(Admin);
                 
