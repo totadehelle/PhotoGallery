@@ -84,7 +84,8 @@ div .modal-content{
   margin: auto;
 }
 
-.card-columns .card {
+/* Without this card-columns look broken in chrome */
+.card {
   display: block;
 }
 
