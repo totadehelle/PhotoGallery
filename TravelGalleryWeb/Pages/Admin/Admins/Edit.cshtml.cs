@@ -48,7 +48,7 @@ namespace TravelGalleryWeb.Pages.Admin.Admins
             }
 
             Admin.Password = _encryption.HashPassword(Admin.Password);
-            Admin.LastChanged = DateTime.Now;
+            Admin.LastChanged = DateTime.Now.ToUniversalTime();
             
             _context.Attach(Admin).State = EntityState.Modified;
 

@@ -54,6 +54,7 @@
                             <div class="carousel-inner"> 
                                 @foreach (var image in Model.PhotoCollection)
                                 {
+                                    //id without "f" ("frame") is a preview id, prefix is added so as not to confuse them
                                     <div class="carousel-item" id = @(image.Id+"f")>
                                         <img class="d-block img-fluid cImage" src="@image.FullPath" alt="...">
                                         @if (@image.Comment != null)

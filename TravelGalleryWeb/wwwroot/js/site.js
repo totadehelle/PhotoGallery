@@ -10,7 +10,7 @@ photos.forEach(function (photo) {
         frames.forEach(function (frame) {
             frame.classList.remove("active");
         });
-        var id = photo.id+"f";
+        var id = photo.id+"f"; //id without "f" is a preview id at the same page.
         var frame = document.getElementById(id);
         frame.classList.add("active");
     });    
