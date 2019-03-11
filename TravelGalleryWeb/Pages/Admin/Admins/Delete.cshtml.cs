@@ -1,10 +1,7 @@
 ﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using TravelGalleryWeb.Models;
 using TravelGalleryWeb.Data;
 
 namespace TravelGalleryWeb.Pages.Admin.Admins
@@ -13,7 +10,6 @@ namespace TravelGalleryWeb.Pages.Admin.Admins
     {
         private readonly ApplicationContext _context;
         
-
         public DeleteModel(ApplicationContext context)
         {
             _context = context;

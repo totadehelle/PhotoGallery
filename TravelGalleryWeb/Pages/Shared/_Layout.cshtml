@@ -1,5 +1,4 @@
-﻿@using Microsoft.AspNetCore.Http
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -28,7 +27,7 @@
 
 <header>
     <nav id="mainNav" class="navbar navbar-expand-sm navbar-dark bg-dark py-0 border-bottom">
-        <a class="navbar-brand" href="#"><img src="/images/mountain-range-32.png" alt="Mountain picture"></a>
+        <a class="navbar-brand" asp-page="/Index"><img src="/images/mountain-range-32.png" alt="Mountain picture"></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -36,19 +35,13 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" asp-area="" asp-page="/Index">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" asp-page="/Index">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" asp-area="" asp-page="/About">About</a>
+                    <a class="nav-link" asp-page="/About">About</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" asp-area="" asp-page="/Contacts">Contacts</a>
-                </li>
-                
-            </ul>
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" asp-area="" asp-page="/Admin/Index"><img src="/images/login24.png" alt="Enter for the site administrator"></a>
+                    <a class="nav-link" asp-page="/Contacts">Contacts</a>
                 </li>
             </ul>
         </div>
@@ -62,7 +55,7 @@
 </div>
 
 <footer class="border-top footer text-center text-dark mb-0">
-        &copy; MyTravelGallery.ru, Elena Saburova, 2019 | All rights reserved 
+    travelgallery.herokuapp.com &copy; Elena Saburova, 2019 | All rights reserved 
 </footer>
 
 <environment include="Development">

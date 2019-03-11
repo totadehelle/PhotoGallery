@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using SQLitePCL;
 using TravelGalleryWeb.Models;
 using TravelGalleryWeb.Data;
 
@@ -31,12 +30,12 @@ namespace TravelGalleryWeb.Pages.Admin.Photos
                 Text = album.Name
             }).ToList();
 
-        public CreateModel(ApplicationContext context, IHostingEnvironment appEnvironment, IOptions<Constants> config)
+        public CreateModel(ApplicationContext context, IHostingEnvironment appEnvironment, IOptions<Constants> config, IStorageOperations storage)
         {
             _context = context;
             _appEnvironment = appEnvironment;
             _config = config;
-            _processor = new ImageProcessor(_config);
+            _processor = new ImageProcessor(storage);
         }
 
         public void OnGet()
@@ -68,22 +67,17 @@ namespace TravelGalleryWeb.Pages.Admin.Photos
                     return Page();
                 }
                     
-                var newFileName = Guid.NewGuid().ToString() + "_" +
-                                  Path.GetFileName(image.FileName);
-                var imagePath = _config.Value.UploadDir + newFileName;
-                var resizedPath = _config.Value.ResizedDir + _config.Value.ResizedPrefix + newFileName;
-                var previewPath = _config.Value.PreviewDir + _config.Value.PreviewPrefix + newFileName;
-                    
-                using (var fileStream = new FileStream(_appEnvironment.WebRootPath + imagePath, FileMode.Create))
+                var newFileName = Guid.NewGuid().ToString() + Path.GetFileName(image.FileName);
+                var imagePath = _appEnvironment.WebRootPath + _config.Value.UploadDir + newFileName;
+                
+                using (var fileStream = new FileStream(imagePath, FileMode.Create))
                 {
                     await image.CopyToAsync(fileStream);
                 }
                     
-                _processor.Resize(_appEnvironment.WebRootPath + imagePath,_appEnvironment.WebRootPath + resizedPath,
-                    false, false);
-                _processor.Resize(_appEnvironment.WebRootPath + imagePath,_appEnvironment.WebRootPath + previewPath,
-                    false, true);
-
+                var link = _processor.Upload(imagePath, false);
+                System.IO.File.Delete(imagePath);
+                
                 var newPhoto = new Photo()
                 {
                     Album = Photo.Album, 
@@ -92,7 +86,7 @@ namespace TravelGalleryWeb.Pages.Admin.Photos
                     Year = Photo.Year, 
                     Comment = Photo.Comment, 
                     AlbumId = Photo.AlbumId, 
-                    FullPath = resizedPath
+                    FullPath = link
                 };
                     
                 _context.Photos.Add(newPhoto);

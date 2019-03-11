@@ -81,6 +81,5 @@ namespace TravelGalleryWeb.Pages.Admin.Photos
                 PagesTotal++;
             }
         }
-        
     }
 }

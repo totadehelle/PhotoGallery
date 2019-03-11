@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using TravelGalleryWeb.Models;
 using TravelGalleryWeb.Data;
 
 namespace TravelGalleryWeb.Pages.Admin.Admins

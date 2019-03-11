@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using TravelGalleryWeb.Models;
 using TravelGalleryWeb.Data;
 
@@ -12,13 +13,16 @@ namespace TravelGalleryWeb.Pages.Admin.Albums
     public class DeleteModel : PageModel
     {
         private readonly ApplicationContext _context;
-        private readonly IHostingEnvironment _appEnvironment;
+        
+        private readonly IOptions<Constants> _config;
+        private readonly ImageProcessor _processor;
         
 
-        public DeleteModel(ApplicationContext context, IHostingEnvironment appEnvironment)
+        public DeleteModel(ApplicationContext context, IOptions<Constants> config, IStorageOperations storage)
         {
             _context = context;
-            _appEnvironment = appEnvironment;
+            _config = config;
+            _processor = new ImageProcessor(storage);
         }
 
         [BindProperty]
@@ -49,26 +53,11 @@ namespace TravelGalleryWeb.Pages.Admin.Albums
 
             Album = await _context.Albums.FindAsync(id);
 
-            if (Album != null)
-            {
-                if (System.IO.File.Exists(_appEnvironment.WebRootPath + Album.Cover))
-                {
-                    System.IO.File.Delete(_appEnvironment.WebRootPath + Album.Cover);
-                }
-                
-                string[] relatedPhotos = _context.Photos.Where(p => p.AlbumId == Album.Id).Select(p => p.FullPath).ToArray();
-
-                foreach (var path in relatedPhotos)
-                {
-                    if (System.IO.File.Exists(_appEnvironment.WebRootPath + path))
-                    {
-                        System.IO.File.Delete(_appEnvironment.WebRootPath + path);
-                    }
-                }
-                
-                _context.Albums.Remove(Album);
-                await _context.SaveChangesAsync();
-            }
+            if (Album == null) return RedirectToPage("./Index");
+            
+            _processor.DeleteAlbumFiles(Album, _context);
+            _context.Albums.Remove(Album);
+            await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");
         }

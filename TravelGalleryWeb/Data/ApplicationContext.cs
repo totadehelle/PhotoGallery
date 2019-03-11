@@ -1,18 +1,15 @@
+using System;
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
 using TravelGalleryWeb.Models;
 
 namespace TravelGalleryWeb.Data
 {
     public class ApplicationContext  : DbContext
     {
-       
         public DbSet<Photo> Photos { get; set; }
         public DbSet<Album> Albums { get; set; }
         public DbSet<Admin> Admins { get; set; }
-
-        //public ApplicationContext(DbContextOptions<ApplicationContext> options)
-        //   : base(options)
-        //{ }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -28,7 +25,23 @@ namespace TravelGalleryWeb.Data
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite(@"DataSource=TravelGalleryContext.db;");
+            var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+            var databaseUri = new Uri(databaseUrl);
+            var userInfo = databaseUri.UserInfo.Split(':');
+
+            var builder = new NpgsqlConnectionStringBuilder
+            {
+                Host = databaseUri.Host,
+                Port = databaseUri.Port,
+                Username = userInfo[0],
+                Password = userInfo[1],
+                Database = databaseUri.LocalPath.TrimStart('/'),
+                SslMode = SslMode.Require,
+                TrustServerCertificate = true,
+            };
+            
+            var connectionString = builder.ToString();
+            optionsBuilder.UseNpgsql(connectionString);
         }
         
     }

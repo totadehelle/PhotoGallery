@@ -10,6 +10,9 @@
 <p>
     <a asp-page="Create">Create New</a>
 </p>
+<p>
+    <a asp-page="/Admin/Index">Back to the site management page</a>
+</p>
 <table class="table">
     <thead>
     <tr>
@@ -35,7 +38,7 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-               @Model.NumberOfPhotos(item)
+                @Model.NumberOfPhotos(item)
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
