@@ -1,5 +1,5 @@
-# ASP.NET Core Photo Gallery on Heroku
-A photo gallery web-site on ASP.NET Core 2.2 Razor Pages, adapted for deploying on Heroku. PostgreSLQ via Entity Framework Core is used as a database, and Cloudinary is used as a file storage (with features for images resizing).
+# ASP.NET Core Photo Gallery adapted for Heroku
+A photo gallery web-site on ASP.NET Core 2.2 Razor Pages, adapted for deploying on Heroku. PostgreSQL via Entity Framework Core is used as a database, and Cloudinary is used as a file storage (with features for images resizing).
 
 **Demo website**: <https://travelgallery.herokuapp.com/>
 
