@@ -7,14 +7,13 @@
 
 
     <ItemGroup>
+        <PackageReference Include="CloudinaryDotNet" Version="1.6.0" />
         <PackageReference Include="Microsoft.AspNetCore.App" />
         <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.2" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.2" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.2.2" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.2" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.Design" Version="2.0.0-preview1-final" />
-        <PackageReference Include="SixLabors.ImageSharp" Version="1.0.0-beta0006" />        
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.2.0" />        
     </ItemGroup>
         
     <ItemGroup>
@@ -60,6 +59,12 @@
       <_ContentIncludedByDefault Remove="Pages\Photos\Details.cshtml" />
       <_ContentIncludedByDefault Remove="Pages\Photos\Edit.cshtml" />
       <_ContentIncludedByDefault Remove="Pages\Photos\Index.cshtml" />
+    </ItemGroup>
+
+
+    <ItemGroup>
+      <None Remove="Dockerfile" />
+      <None Remove=".dockerignore" />
     </ItemGroup>
 
 </Project>

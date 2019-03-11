@@ -21,12 +21,12 @@ namespace TravelGalleryWeb.Pages.Admin.Albums
         private readonly ImageProcessor _processor;
         public string Message { get; set; }  = "It is recommended to use square images for the cover.";
 
-        public EditModel(ApplicationContext context, IHostingEnvironment appEnvironment, IOptions<Constants> config)
+        public EditModel(ApplicationContext context, IHostingEnvironment appEnvironment, IOptions<Constants> config, IStorageOperations storage)
         {
             _context = context;
             _appEnvironment = appEnvironment;
             _config = config;
-            _processor = new ImageProcessor(_config);
+            _processor = new ImageProcessor(storage);
         }
 
         [BindProperty]
@@ -77,24 +77,20 @@ namespace TravelGalleryWeb.Pages.Admin.Albums
                 
                 var newFileName = Guid.NewGuid().ToString() + "_" +
                                   Path.GetFileName(file.FileName);
-                var imagePath = _config.Value.UploadDir + newFileName;
-                var resizedImagePath = _config.Value.ResizedDir + _config.Value.ResizedPrefix + newFileName;
-
-
-                using (var fileStream = new FileStream(_appEnvironment.WebRootPath + imagePath, FileMode.Create))
+                var imagePath = _appEnvironment.WebRootPath + _config.Value.UploadDir + newFileName;
+                
+                using (var fileStream = new FileStream(imagePath, FileMode.Create))
                 {
                     await file.CopyToAsync(fileStream);
                 }
                 
-                _processor.Resize(_appEnvironment.WebRootPath + imagePath, _appEnvironment.WebRootPath + resizedImagePath,
-                    true, false);
+                var link = _processor.Upload(imagePath, true);
+                System.IO.File.Delete(imagePath);
                 
-                if (System.IO.File.Exists(_appEnvironment.WebRootPath + Album.Cover))
-                {
-                    System.IO.File.Delete(_appEnvironment.WebRootPath + Album.Cover);
-                }
+                //deleting old cover
+                _processor.DeleteImage(Album.Cover);
 
-                Album.Cover = resizedImagePath;
+                Album.Cover = link;
             }
 
             _context.Attach(Album).State = EntityState.Modified;

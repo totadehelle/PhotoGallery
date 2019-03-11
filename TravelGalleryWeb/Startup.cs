@@ -4,39 +4,50 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TravelGalleryWeb.Data;
 using TravelGalleryWeb.Models;
 using TravelGalleryWeb.Pages.Admin;
-using TravelGalleryWeb.Pages.Admin.Admins;
 
 namespace TravelGalleryWeb
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IHostingEnvironment appEnvironment)
         {
             Configuration = configuration;
-            using (var context = new ApplicationContext())
+            AppEnvironment = appEnvironment;
+            
+            IConfigurationBuilder builder = new ConfigurationBuilder()
+                .SetBasePath(appEnvironment.ContentRootPath)
+                .AddJsonFile("appsettings.json", true, true);
+            Configuration = builder.Build();
+            
+            using (ApplicationContext context = new ApplicationContext())
             {
-                context.Database.EnsureCreated();
+                context.Database.Migrate();
                 if (context.Admins.Any()) return;
                 var admin = new Admin()
                 {
                     Login = "admin",
                     Password = configuration.GetSection("Constants")["DefaultPass"], //"qwerty"
-                    LastChanged = DateTime.Now.ToUniversalTime(),
+                    LastChanged = DateTime.UtcNow,
                     Role = Role.Administrator
                 };
                 context.Admins.Add(admin);
                 context.SaveChanges();
             }
 
+            //This ensures that all the directories for file uploading are created 
+            System.IO.Directory.CreateDirectory(AppEnvironment.WebRootPath +
+                                                Configuration.GetSection("Constants")["UploadDir"]);
         }
 
         private IConfiguration Configuration { get; }
+        private IHostingEnvironment AppEnvironment { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -47,6 +58,7 @@ namespace TravelGalleryWeb
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.Lax;
             });
+            services.AddTransient<IStorageOperations, CloudinaryOperations>();
 
 
             services.AddMvc()
@@ -56,7 +68,7 @@ namespace TravelGalleryWeb
                     options.Conventions.AuthorizeFolder("/Admin/Admins", "RequireAdministratorRole");
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddEntityFrameworkSqlite().AddDbContext<ApplicationContext>();
+            services.AddEntityFrameworkNpgsql().AddDbContext<ApplicationContext>();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
@@ -89,18 +101,17 @@ namespace TravelGalleryWeb
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 //app.UseHsts();
             }
-
+            
             var cookiePolicyOptions = new CookiePolicyOptions
             {
                 MinimumSameSitePolicy = SameSiteMode.Lax,
             };
             
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy(cookiePolicyOptions);
             app.UseAuthentication();
             app.UseMvc();
-            //app.UseMiddleware<ConstantsMiddleware>();
         }
     }
 }

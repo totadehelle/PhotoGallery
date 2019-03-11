@@ -1,17 +1,11 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using TravelGalleryWeb.Models;
 using TravelGalleryWeb.Data;
 
 namespace TravelGalleryWeb.Pages.Admin.Admins
@@ -52,7 +46,7 @@ namespace TravelGalleryWeb.Pages.Admin.Admins
             Message = null;
 
             Admin.Password = _encryption.HashPassword(Admin.Password);
-            Admin.LastChanged = DateTime.Now.ToUniversalTime();
+            Admin.LastChanged = DateTime.UtcNow;
             
             await _context.Admins.AddAsync(Admin);
                 

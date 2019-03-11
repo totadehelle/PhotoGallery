@@ -1,54 +1,36 @@
-using System;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Processing;
-using System.IO;
-using Microsoft.Extensions.Options;
-using SixLabors.ImageSharp.PixelFormats;
+using System.Collections.Generic;
+using System.Linq;
+using TravelGalleryWeb.Data;
+using TravelGalleryWeb.Models;
 
 namespace TravelGalleryWeb.Pages.Admin
 {
     public class ImageProcessor
     {
-        public ImageProcessor(IOptions<Constants> config)
+        public ImageProcessor(IStorageOperations storage)
         {
-            _imageHeight = config.Value.PhotoHeight;
-            _coverHeight = config.Value.CoverHeight;
-            _previewWidth = config.Value.PreviewWidth;
-        }
-
-        private readonly int _imageHeight;
-        private readonly int _coverHeight;
-        private readonly int _previewWidth;
-        public void Resize(string originPath, string resizedPath, bool isAlbumCover, bool isPreview)
-        {
-            using (var image = Image.Load(originPath))
-            {
-                if (image == null) return;
-
-                if(isPreview) ChangeWidth(image);
-                else ChangeHeight(image, isAlbumCover);
-                image.Save(resizedPath); // Automatic encoder selected based on extension.
-            }    
-        }
-
-        private void ChangeHeight(Image<Rgba32> image, bool isAlbumCover)
-        {
-            var height = isAlbumCover ? _coverHeight : _imageHeight;
-
-            if (image.Height <= height) return;
-            var coefficient = (float)image.Height / (float)height;
-            var width = (int)(image.Width / coefficient);
-            image.Mutate(x => x
-                .Resize(width, height));
+            _storage = storage;
         }
         
-        private void ChangeWidth(Image<Rgba32> image)
+        IStorageOperations _storage;
+        
+        public string Upload(string path, bool isCover)
         {
-            if (image.Width <= _previewWidth) return;
-            var coefficient = (float)image.Width / (float)_previewWidth;
-            var height = (int)(image.Height / coefficient);
-            image.Mutate(x => x
-                .Resize(_previewWidth, height));
+            return _storage.Upload(path, isCover);
+        }
+        
+        public void DeleteAlbumFiles(Album album, ApplicationContext context)
+        {
+            if (album == null) return;
+            _storage.Delete(album.Cover);
+            List<string> relatedPhotos = context.Photos.Where(p => p.AlbumId == album.Id).Select(p => p.FullPath).ToList();
+            _storage.Delete(relatedPhotos);
+        }
+        
+        public void DeleteImage(string path)
+        {
+            if (path == null) return;
+            _storage.Delete(path);
         }
     }
 }

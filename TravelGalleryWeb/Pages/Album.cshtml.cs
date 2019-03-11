@@ -13,7 +13,7 @@ namespace TravelGalleryWeb.Pages
     public class AlbumModel : PageModel
     {
         private ApplicationContext _context;
-        private readonly IOptions<Constants> _congig;
+        private readonly IOptions<Constants> _config;
         
         [BindProperty(SupportsGet = true)] public int Id { get; set; }
         [BindProperty(SupportsGet = true)] public int Year { get; set; }
@@ -24,10 +24,10 @@ namespace TravelGalleryWeb.Pages
         
         public List<int> Years { get; set; }
 
-        public AlbumModel(ApplicationContext context, IOptions<Constants> congig)
+        public AlbumModel(ApplicationContext context, IOptions<Constants> config)
         {
             _context = context;
-            _congig = congig;
+            _config = config;
         }
         
         public async Task OnGetAsync()
@@ -64,8 +64,8 @@ namespace TravelGalleryWeb.Pages
 
         public string FindPreview(string path)
         {
-            return path.Replace(_congig.Value.ResizedDir + _congig.Value.ResizedPrefix,
-                _congig.Value.PreviewDir + _congig.Value.PreviewPrefix);
+            return path.Replace("upload/",
+                "upload/w_" + _config.Value.PreviewWidth + "/");
         }
     }
 }

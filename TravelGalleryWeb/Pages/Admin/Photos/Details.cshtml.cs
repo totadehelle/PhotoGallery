@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using TravelGalleryWeb.Models;
 using TravelGalleryWeb.Data;
 
@@ -11,13 +10,10 @@ namespace TravelGalleryWeb.Pages.Admin.Photos
     public class DetailsModel : PageModel
     {
         private readonly ApplicationContext _context;
-        private readonly IOptions<Constants> _congig;
-        public string originPath { get; set; }
 
-        public DetailsModel(ApplicationContext context, IOptions<Constants> congig)
+        public DetailsModel(ApplicationContext context)
         {
             _context = context;
-            _congig = congig;
         }
 
         public Photo Photo { get; set; }
@@ -35,8 +31,6 @@ namespace TravelGalleryWeb.Pages.Admin.Photos
             {
                 return NotFound();
             }
-
-            originPath = Photo.FullPath.Replace(_congig.Value.ResizedDir+_congig.Value.ResizedPrefix, _congig.Value.UploadDir);
             
             return Page();
         }

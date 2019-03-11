@@ -70,7 +70,6 @@ namespace TravelGalleryWeb.Pages.Admin.Photos
                     throw;
                 }
             }
-
             return RedirectToPage("./Index");
         }
 
