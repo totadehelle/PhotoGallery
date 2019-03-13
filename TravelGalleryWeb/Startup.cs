@@ -40,10 +40,6 @@ namespace TravelGalleryWeb
                 context.Admins.Add(admin);
                 context.SaveChanges();
             }
-
-            //This ensures that all the directories for file uploading are created 
-            System.IO.Directory.CreateDirectory(AppEnvironment.WebRootPath +
-                                                Configuration.GetSection("Constants")["UploadDir"]);
         }
 
         private IConfiguration Configuration { get; }
