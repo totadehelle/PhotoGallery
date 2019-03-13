@@ -49,7 +49,6 @@
 
     <ItemGroup>
       <Folder Include="Pages\admin" />
-      <Folder Include="wwwroot\uploadedFiles" />
     </ItemGroup>
 
 

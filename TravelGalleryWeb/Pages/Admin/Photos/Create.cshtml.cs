@@ -20,7 +20,6 @@ namespace TravelGalleryWeb.Pages.Admin.Photos
     {
         private readonly ApplicationContext _context;
         private readonly IHostingEnvironment _appEnvironment;
-        private readonly IOptions<Constants> _config;
         private readonly ImageProcessor _processor;
         public string Message { get; set; }
         
@@ -30,11 +29,10 @@ namespace TravelGalleryWeb.Pages.Admin.Photos
                 Text = album.Name
             }).ToList();
 
-        public CreateModel(ApplicationContext context, IHostingEnvironment appEnvironment, IOptions<Constants> config, IStorageOperations storage)
+        public CreateModel(ApplicationContext context, IHostingEnvironment appEnvironment, IStorageOperations storage)
         {
             _context = context;
             _appEnvironment = appEnvironment;
-            _config = config;
             _processor = new ImageProcessor(storage);
         }
 
@@ -68,7 +66,7 @@ namespace TravelGalleryWeb.Pages.Admin.Photos
                 }
                     
                 var newFileName = Guid.NewGuid().ToString() + Path.GetFileName(image.FileName);
-                var imagePath = _appEnvironment.WebRootPath + _config.Value.UploadDir + newFileName;
+                var imagePath = _appEnvironment.WebRootPath + "/" + newFileName;
                 
                 using (var fileStream = new FileStream(imagePath, FileMode.Create))
                 {

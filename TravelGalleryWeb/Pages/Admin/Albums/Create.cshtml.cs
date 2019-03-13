@@ -18,15 +18,13 @@ namespace TravelGalleryWeb.Pages.Admin.Albums
     {
         private readonly ApplicationContext _context;
         private readonly IHostingEnvironment _appEnvironment;
-        private readonly IOptions<Constants> _config;
         private readonly ImageProcessor _processor;
         public string Message { get; set; }  = "It is recommended to use square images for the cover.";
 
-        public CreateModel(ApplicationContext context, IHostingEnvironment appEnvironment, IOptions<Constants> config, IStorageOperations storage)
+        public CreateModel(ApplicationContext context, IHostingEnvironment appEnvironment, IStorageOperations storage)
         {
             _context = context;
             _appEnvironment = appEnvironment;
-            _config = config;
             _processor = new ImageProcessor(storage);
         }
 
@@ -67,7 +65,7 @@ namespace TravelGalleryWeb.Pages.Admin.Albums
                 
                 var newFileName = Guid.NewGuid().ToString() + "_" +
                                   Path.GetFileName(file.FileName);
-                var imagePath = _appEnvironment.WebRootPath + _config.Value.UploadDir + newFileName;
+                var imagePath = _appEnvironment.WebRootPath + "/" + newFileName;
                 
                 using (var fileStream = new FileStream(imagePath, FileMode.Create))
                 {
