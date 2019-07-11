@@ -33,7 +33,7 @@ namespace TravelGalleryWeb
                 var admin = new Admin()
                 {
                     Login = "admin",
-                    Password = configuration.GetSection("Constants")["DefaultPass"], //"qwerty"
+                    Password = configuration.GetSection("Constants")["DefaultPass"],
                     LastChanged = DateTime.UtcNow,
                     Role = Role.Administrator
                 };
@@ -97,6 +97,14 @@ namespace TravelGalleryWeb
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 //app.UseHsts();
             }
+            
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                OnPrepareResponse = ctx =>
+                {
+                    ctx.Context.Response.Headers.Add("Cache-Control", "public,max-age=3600");
+                }
+            });
             
             var cookiePolicyOptions = new CookiePolicyOptions
             {

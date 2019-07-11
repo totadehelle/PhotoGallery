@@ -10,6 +10,7 @@ using TravelGalleryWeb.Data;
 
 namespace TravelGalleryWeb.Pages
 {
+    [ResponseCache(Location = ResponseCacheLocation.Any, Duration = 900)]
     public class AlbumModel : PageModel
     {
         private ApplicationContext _context;
